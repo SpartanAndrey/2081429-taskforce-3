@@ -84,29 +84,34 @@ export class TaskRdo {
     description: 'Уникальный идентификатор пользователя.',
     example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
   })
+  @Expose()
   public userId: string;
 
   @ApiProperty({
     description: 'Дата создания.',
     example: '2023-03-27'
   })
+  @Expose()
   public createdAt: Date;
 
   @ApiProperty({
     description: 'Дата обновления.',
     example: '2023-03-27'
   })
+  @Expose()
   public updatedAt: Date;
 
   @ApiProperty({
     description: 'Список отликов исполнителей.',
     example: ''
   })
+  @Expose()
   public responses: string[]; //сделать ссылку на response rdo?
 
   @ApiProperty({
     description: 'Список комментариев пользователей.',
     example: ''
   })
+  @Expose()
   public comments: string[]; //сделать ссылку на comment rdo?
 }

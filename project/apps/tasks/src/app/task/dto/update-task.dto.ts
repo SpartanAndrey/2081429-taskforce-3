@@ -60,6 +60,5 @@ export class UpdateTaskDto {
     description: 'Одно из пяти статусов: Новое, Отменено, В работе, Выполнено, Провалено.',
     example: 'Выполнено'
   })
-  public status?: TaskStatus;
-
+  public status?: TaskStatus; 
 }

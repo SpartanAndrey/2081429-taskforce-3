@@ -1,7 +1,8 @@
 export interface Review {
-  id?: number;
+  _id?: string;
   review: string;
-  taskId: number;
+  taskId: string;
   rating: number;
   userId: string;
+  createdAt: Date;
 }

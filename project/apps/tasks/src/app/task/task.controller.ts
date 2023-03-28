@@ -37,7 +37,7 @@ export class TaskController {
 
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
-    description: 'The new task has been successfully deleted.'
+    description: 'The task has been successfully deleted.'
   })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
