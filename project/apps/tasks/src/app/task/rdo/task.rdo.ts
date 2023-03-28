@@ -1,0 +1,112 @@
+import { Expose } from 'class-transformer';
+import { Category, TaskStatus, UserCity } from '@project/shared/app-types';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class TaskRdo {
+  @ApiProperty({
+    description: 'Уникальный идентификатор задания.',
+    example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
+  })
+  @Expose({ name: '_id'})
+  public id: string;
+
+  @ApiProperty({
+    description: 'Заголовок.',
+    example: 'Дверь мне запили. Срочно'
+  })
+  @Expose()
+  public title: string;
+
+  @ApiProperty({
+    description: 'Описание',
+    example: 'Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.'
+  })
+  @Expose()
+  public description: string;
+
+  @ApiProperty({
+    description: 'Одна из существующих категорий.',
+    example: 'Двери'
+  })
+  @Expose()
+  public category: Category;
+
+  @ApiProperty({
+    description: 'Стоимость.',
+    example: '1000'
+  })
+  @Expose()
+  public price: number;
+
+  @ApiProperty({
+    description: 'Валидная дата для выполнения задания.',
+    example: '2023-08-29'
+  })
+  @Expose()
+  public dueDate: Date;
+
+  @ApiProperty({
+    description: 'Изображение. Допускаются форматы: jpg, png.',
+    example: 'image.png'
+  })
+  @Expose()
+  public image: string;
+
+  @ApiProperty({
+    description: 'Адрес, где необходимо выполнять задание.',
+    example: 'переулок Дверной запил, 21'
+  })
+  @Expose()
+  public address: string;
+
+  @ApiProperty({
+    description: 'Список тегов к заданию. ',
+    example: 'запилить'
+  })
+  @Expose()
+  public tags: string[];  
+
+  @ApiProperty({
+    description: 'Один город из списка: Москва, Санкт-Петербург, Владивосток.',
+    example: 'Москва'
+  })
+  @Expose()
+  public city: UserCity;
+
+  @ApiProperty({
+    description: 'Одно из пяти статусов: Новое, Отменено, В работе, Выполнено, Провалено.',
+    example: 'Новое'
+  })
+  @Expose()
+  public status: TaskStatus;
+
+  @ApiProperty({
+    description: 'Уникальный идентификатор пользователя.',
+    example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
+  })
+  public userId: string;
+
+  @ApiProperty({
+    description: 'Дата создания.',
+    example: '2023-03-27'
+  })
+  public createdAt: Date;
+
+  @ApiProperty({
+    description: 'Дата обновления.',
+    example: '2023-03-27'
+  })
+  public updatedAt: Date;
+
+  @ApiProperty({
+    description: 'Список отликов исполнителей.',
+    example: ''
+  })
+  public responses: string[]; //сделать ссылку на response rdo?
+
+  @ApiProperty({
+    description: 'Список комментариев пользователей.',
+    example: ''
+  })
+  public comments: string[]; //сделать ссылку на comment rdo?
+}

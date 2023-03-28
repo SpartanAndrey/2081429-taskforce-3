@@ -43,7 +43,7 @@ export class UserRdo {
     example: 'avatar.png'
   })
   @Expose()
-  public avatar?: string;
+  public avatar: string;
 
   @ApiProperty({
     description: 'Дата рождения.',

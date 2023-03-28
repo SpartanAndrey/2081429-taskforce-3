@@ -53,6 +53,7 @@ export class AuthenticationController {
   @Get(':id')
   public async show(@Param('id') id: string) {
     const existUser = await this.authService.getUser(id);
+    
     return fillObject(UserRdo, existUser);
   }
 }
