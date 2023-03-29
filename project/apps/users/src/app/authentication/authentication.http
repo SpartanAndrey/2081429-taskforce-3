@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3000/api
+
+# Create a new user
+POST {{baseUrl}}/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "fullName": "Spartan Spartanych",
+  "email": "sparta@gmail.com",
+  "city": "Москва",
+  "password": "123456",
+  "role": "customer",
+  "dateBirth": "2022-02-22"
+}
+
+###
+
+# Get user by ID
+GET {{baseUrl}}/auth/d913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3 HTTP/1.1
+
+###
+
+# Login user by email and password
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "sparta@gmail.com",
+  "password": "123456"
+}
+
+###
