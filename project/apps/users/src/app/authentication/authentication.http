@@ -9,14 +9,14 @@ Content-Type: application/json
   "email": "sparta@gmail.com",
   "city": "Москва",
   "password": "123456",
-  "role": "customer",
+  "role": "Customer",
   "dateBirth": "2022-02-22"
 }
 
 ###
 
 # Get user by ID
-GET {{baseUrl}}/auth/d913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3 HTTP/1.1
+GET {{baseUrl}}/auth/6429a367af70e280a3855b20 HTTP/1.1
 
 ###
 

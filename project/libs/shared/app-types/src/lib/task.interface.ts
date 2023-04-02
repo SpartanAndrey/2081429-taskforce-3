@@ -17,7 +17,7 @@ export interface Task {
   createdAt: Date;
   updatedAt?: Date;
   status: TaskStatus;
-  responses: string[];
+  responses?: string[];
   responsesCount?: number;
   commentsCount?: number;
 }

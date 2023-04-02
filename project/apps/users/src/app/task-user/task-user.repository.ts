@@ -21,9 +21,9 @@ export class TaskUserRepository implements CRUDRepository<TaskUserEntity, string
     this.taskUserModel.deleteOne({id});
   }
 
-  public async findById(id: string): Promise<User | null> {
+  public async findById(_id: string): Promise<User | null> { //тут опять траблы с айди (вспоминая прошлый проект), если использовать _id, то всё работает
     return this.taskUserModel
-      .findOne({id})
+      .findOne({_id})
       .exec();
   }
 

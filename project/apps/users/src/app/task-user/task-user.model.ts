@@ -5,6 +5,7 @@ import { User, UserRole, UserCity } from '@project/shared/app-types';
 @Schema({
     collection: 'users',
     timestamps: true,
+    discriminatorKey: 'role',
   })
 
 export class TaskUserModel extends Document implements User {
