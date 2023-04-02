@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TaskUserModel, TaskUserSchema } from './task-user.model';
 import { TaskUserRepository } from './task-user.repository';
-import { TaskUserCustomerModel, TaskUserCustomerSchema } from './task-user-customer.model';
+import { Customer, TaskUserCustomerSchema } from './customer.model';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -10,7 +10,7 @@ import { TaskUserCustomerModel, TaskUserCustomerSchema } from './task-user-custo
       name: TaskUserModel.name, 
       schema: TaskUserSchema,
       discriminators: [
-        { name: TaskUserCustomerModel.name, schema: TaskUserCustomerSchema}
+        { name: Customer.name, schema: TaskUserCustomerSchema}
       ],
     }
   ])],

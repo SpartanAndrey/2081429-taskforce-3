@@ -4,25 +4,22 @@ import { UserCustomer } from '@project/shared/app-types';
 
 @Schema()
 
-export class TaskUserCustomerModel extends Document implements UserCustomer {
+export class Customer extends Document implements UserCustomer {
   @Prop({
-    required: true,
     default: 0,
   })
   public publishedTasksCount: number;
 
   @Prop({
-    required: true,
     default: 0,
   })
   public newTasksCount?: number;
 
   @Prop({
-    required: true,
     default: '',
   })
   public personalInfo?: string;
 
 }
 
-export const TaskUserCustomerSchema = SchemaFactory.createForClass(TaskUserCustomerModel);
+export const TaskUserCustomerSchema = SchemaFactory.createForClass(Customer);
