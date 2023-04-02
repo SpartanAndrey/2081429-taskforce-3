@@ -102,16 +102,16 @@ export class TaskRdo {
   public updatedAt: Date;
 
   @ApiProperty({
-    description: 'Список отликов исполнителей.',
+    description: 'Количество отликов исполнителей.',
     example: ''
   })
   @Expose()
-  public responses: string[]; //сделать ссылку на response rdo?
+  public responses: number;
 
   @ApiProperty({
-    description: 'Список комментариев пользователей.',
+    description: 'Количество комментариев пользователей.',
     example: ''
   })
   @Expose()
-  public comments: string[]; //сделать ссылку на comment rdo?
+  public comments: number;
 }

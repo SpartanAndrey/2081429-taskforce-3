@@ -15,8 +15,9 @@ export class TaskEntity implements Task {
   public createdAt: Date;
   public updatedAt?: Date;
   public status: TaskStatus;
-  public responses?: string[]; //пока непонятно, что имеется ввиду под откликом: айди пользователей?
-  public comments?: string[];
+  public responses?: string[];
+  public responsesCount?: number;
+  public commentsCount?: number;
 
   constructor(task: Task) {
     this.fillEntity(task);
@@ -42,7 +43,8 @@ export class TaskEntity implements Task {
     this.updatedAt = task.updatedAt;
     this.status = task.status;
     this.responses = task.responses;
-    this.comments = task.comments;
+    this.responsesCount = task.responsesCount;
+    this.commentsCount = task.commentsCount;
   }
 
 }

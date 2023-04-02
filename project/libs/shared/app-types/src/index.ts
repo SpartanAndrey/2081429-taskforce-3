@@ -6,3 +6,5 @@ export * from './lib/task.interface';
 export * from './lib/user-city.enum';
 export * from './lib/user-role.enum';
 export * from './lib/user.interface';
+export * from './lib/user-customer.interface';
+export * from './lib/user-contractor.interface';
