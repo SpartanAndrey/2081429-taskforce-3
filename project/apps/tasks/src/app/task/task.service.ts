@@ -1,32 +1,33 @@
 import dayjs from 'dayjs';
-import { Injectable } from '@nestjs/common';
-import { TaskMemoryRepository } from './task-memory.repository';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { Task, TaskStatus } from '@project/shared/app-types';
+import { TaskRepository } from './task.repository';
+import { Injectable } from '@nestjs/common';
 import { TaskEntity } from './task.entity';
-import { TaskStatus } from '@project/shared/app-types';
 
 @Injectable()
 export class TaskService {
   constructor(
-    private readonly taskRepository: TaskMemoryRepository
+    private readonly taskRepository: TaskRepository
   ) {}
 
-  public async create(dto: CreateTaskDto) {
-    const task = {...dto, status: TaskStatus.New, userId: '', createdAt: dayjs('2023-03-26').toDate()};
+  async createTask(dto: CreateTaskDto): Promise<Task> {
 
-    const taskEntity = await new TaskEntity(task);
-
+    const taskDto = {...dto, userId: '', categoryId: 1, createdAt: dayjs('2023-03-26').toDate(), status: TaskStatus.New};
+    const taskEntity = new TaskEntity(taskDto);
     return this.taskRepository.create(taskEntity);
   }
 
-  //добавить метод update
+  async deleteTask(id: number): Promise<void> {
+    this.taskRepository.destroy(id);
+  }
 
-
-  public async getTask(id: string) {
+  async getTask(id: number): Promise<Task> {
     return this.taskRepository.findById(id);
   }
 
-  public async delete(id: string) {
-    return this.taskRepository.destroy(id);
+  async getTasks(): Promise<Task[]> {
+    return this.taskRepository.find();
   }
+
 }

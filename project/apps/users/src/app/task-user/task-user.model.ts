@@ -1,7 +1,6 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User, UserRole, UserCity } from '@project/shared/app-types';
-import { Customer } from './customer.model';
+import { User, UserRole, City } from '@project/shared/app-types';
 
 @Schema({
     collection: 'users',
@@ -23,10 +22,10 @@ export class TaskUserModel extends Document implements User {
   @Prop({
     required: true,
     type: String,
-    enum: UserCity,
-    default: UserCity.MSK,
+    enum: City,
+    default: City.MSK,
   })
-  public city: UserCity;
+  public city: City;
 
   @Prop({
     required: true,
@@ -36,7 +35,8 @@ export class TaskUserModel extends Document implements User {
   @Prop({
     required: true,
     type: String,
-    enum: [Customer.name]
+    enum: UserRole,
+    default: UserRole.Customer,
   })
   public role: UserRole;
 

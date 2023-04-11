@@ -1,8 +1,8 @@
-import { Body, Controller, Post, Get, Delete, HttpCode, HttpStatus, Param  } from '@nestjs/common';
 import { TaskService } from './task.service';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { fillObject } from '@project/util/util-core';
-import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskRdo } from './rdo/task.rdo';
+import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('tasks')
@@ -14,25 +14,31 @@ export class TaskController {
 
   @ApiResponse({
     type: TaskRdo,
-    status: HttpStatus.CREATED,
-    description: 'The new task has been successfully created.'
+    status: HttpStatus.OK,
+    description: 'The task found.'
   })
-  @Post('create')
-  public async create(@Body() dto: CreateTaskDto) {
-    const newTask = await this.taskService.create(dto);
-    return fillObject(TaskRdo, newTask);
+  @Get('/:id')
+  async show(@Param('id') id: string) {
+    const taskId = parseInt(id, 10);
+    const existTask = await this.taskService.getTask(taskId);
+    return fillObject(TaskRdo, existTask);
+  }
+
+  @Get('/')
+  async index() {
+    const tasks = await this.taskService.getTasks();
+    return fillObject(TaskRdo, tasks);
   }
 
   @ApiResponse({
     type: TaskRdo,
-    status: HttpStatus.OK,
-    description: 'The task found.'
+    status: HttpStatus.CREATED,
+    description: 'The new task has been successfully created.'
   })
-  @Get(':id')
-  public async get(@Param('id') id: string) {
-    const existTask = await this.taskService.getTask(id);
-
-    return fillObject(TaskRdo, existTask);
+  @Post('/')
+  async create(@Body() dto: CreateTaskDto) {
+    const newTask = await this.taskService.createTask(dto);
+    return fillObject(TaskRdo, newTask);
   }
 
   @ApiResponse({
@@ -41,7 +47,8 @@ export class TaskController {
   })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async delete(@Param('id') id: string) {
-    await this.taskService.delete(id);
+  async destroy(@Param('id') id: string) {
+    const taskId = parseInt(id, 10);
+    this.taskService.deleteTask(taskId);
   }
 }

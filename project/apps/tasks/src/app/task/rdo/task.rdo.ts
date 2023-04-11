@@ -1,14 +1,14 @@
 import { Expose } from 'class-transformer';
-import { Category, TaskStatus, UserCity } from '@project/shared/app-types';
+import { Category, TaskStatus, City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TaskRdo {
   @ApiProperty({
     description: 'Уникальный идентификатор задания.',
-    example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
+    example: 300
   })
   @Expose({ name: '_id'})
-  public id: string;
+  public id: number;
 
   @ApiProperty({
     description: 'Заголовок.',
@@ -71,7 +71,7 @@ export class TaskRdo {
     example: 'Москва'
   })
   @Expose()
-  public city: UserCity;
+  public city: City;
 
   @ApiProperty({
     description: 'Одно из пяти статусов: Новое, Отменено, В работе, Выполнено, Провалено.',

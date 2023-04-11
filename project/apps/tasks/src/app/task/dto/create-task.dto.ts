@@ -1,4 +1,4 @@
-import { Category, UserCity } from '@project/shared/app-types';
+import { Category, City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTaskDto {
@@ -54,5 +54,5 @@ export class CreateTaskDto {
     description: 'Один город из списка: Москва, Санкт-Петербург, Владивосток.',
     example: 'Москва'
   })
-  public city: UserCity;
+  public city: City;
 }

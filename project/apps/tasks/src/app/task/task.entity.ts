@@ -1,16 +1,17 @@
-import { Category, Task, TaskStatus, UserCity } from '@project/shared/app-types';
+import { Task, TaskStatus, City } from '@project/shared/app-types';
+import { Entity } from '@project/util/util-types';
 
-export class TaskEntity implements Task {
-  public _id?: string;
+export class TaskEntity implements Entity<TaskEntity>, Task {
+  public id?: number;
   public title: string;
   public description: string;
-  public category: Category;
+  public categoryId: number;
   public price?: number;
   public dueDate?: Date;
   public image?: string;
   public address?: string;
   public tags?: string[];
-  public city: UserCity;
+  public city: City;
   public userId: string;
   public createdAt: Date;
   public updatedAt?: Date;
@@ -23,28 +24,28 @@ export class TaskEntity implements Task {
     this.fillEntity(task);
   }
 
-  public toObject() {
-    return {...this};
+  public fillEntity(entity: Task) {
+    this.id = entity.id;
+    this.title = entity.title;
+    this.description = entity.description;
+    this.categoryId = entity.categoryId;
+    this.price = entity.price;
+    this.dueDate = entity.dueDate;
+    this.image = entity.image;
+    this.address = entity.address;
+    this.tags = entity.tags;
+    this.city = entity.city;
+    this.userId = entity.userId;
+    this.createdAt = entity.createdAt;
+    this.updatedAt = entity.updatedAt;
+    this.status = entity.status;
+    this.responses = entity.responses;
+    this.responsesCount = entity.responsesCount;
+    this.commentsCount = entity.commentsCount;
   }
 
-  public fillEntity(task: Task) {
-    this._id = task._id;
-    this.title = task.title;
-    this.description = task.description;
-    this.category = task.category;
-    this.price = task.price;
-    this.dueDate = task.dueDate;
-    this.image = task.image;
-    this.address = task.address;
-    this.tags = task.tags;
-    this.city = task.city;
-    this.userId = task.userId;
-    this.createdAt = task.createdAt;
-    this.updatedAt = task.updatedAt;
-    this.status = task.status;
-    this.responses = task.responses;
-    this.responsesCount = task.responsesCount;
-    this.commentsCount = task.commentsCount;
+  public toObject(): TaskEntity {
+    return {...this};
   }
 
 }

@@ -1,4 +1,4 @@
-import { UserCity, UserRole } from '@project/shared/app-types';
+import { City, UserRole } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -18,7 +18,7 @@ export class CreateUserDto {
     description: 'Один город из списка: Москва, Санкт-Петербург, Владивосток.',
     example: 'Москва'
   })
-  public city: UserCity;
+  public city: City;
 
   @ApiProperty({
     description: 'Пароль пользователя. Минимальная длина пароля 6 символов, максимальная 12.',
