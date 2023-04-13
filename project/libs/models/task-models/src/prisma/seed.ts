@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../../../../node_modules/.prisma/client'
 
 const prisma = new PrismaClient();
 
@@ -8,23 +8,22 @@ async function fillDb() {
       update: {},
       create:
         {
-          title: '',
-          description: '',
+          title: 'Сесть на пенёк',
+          description: 'Если косарь есть, то сесть на пенёк',
           category: {
             create: 
               {
-                title: ''
+                title: 'Пеньки'
               },
           },
           price: 300,
           dueDate: new Date('2023-05-25'),
           address: '',
           tags: [''],
-          city: 'Москва',
+          city: 'Moscow',
           userId: '',
-          status: 'Новое',
+          status: 'New',
           responses: ['']
-
         },
     });
     console.info('🤘️ Database was filled')

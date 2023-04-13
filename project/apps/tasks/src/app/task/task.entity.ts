@@ -1,7 +1,6 @@
 import { Task, TaskStatus, City } from '@project/shared/app-types';
-import { Entity } from '@project/util/util-types';
 
-export class TaskEntity implements Entity<TaskEntity>, Task {
+export class TaskEntity implements Task {
   public id?: number;
   public title: string;
   public description: string;
@@ -24,27 +23,27 @@ export class TaskEntity implements Entity<TaskEntity>, Task {
     this.fillEntity(task);
   }
 
-  public fillEntity(entity: Task) {
-    this.id = entity.id;
-    this.title = entity.title;
-    this.description = entity.description;
-    this.categoryId = entity.categoryId;
-    this.price = entity.price;
-    this.dueDate = entity.dueDate;
-    this.image = entity.image;
-    this.address = entity.address;
-    this.tags = entity.tags;
-    this.city = entity.city;
-    this.userId = entity.userId;
-    this.createdAt = entity.createdAt;
-    this.updatedAt = entity.updatedAt;
-    this.status = entity.status;
-    this.responses = entity.responses;
-    this.responsesCount = entity.responsesCount;
-    this.commentsCount = entity.commentsCount;
+  public fillEntity(task: Task) {
+    this.id = task.id;
+    this.title = task.title;
+    this.description = task.description;
+    this.categoryId = task.categoryId;
+    this.price = task.price;
+    this.dueDate = task.dueDate;
+    this.image = task.image;
+    this.address = task.address;
+    this.tags = task.tags;
+    this.city = task.city;
+    this.userId = task.userId;
+    this.createdAt = task.createdAt;
+    this.updatedAt = task.updatedAt;
+    this.status = task.status;
+    this.responses = task.responses;
+    this.responsesCount = task.responsesCount;
+    this.commentsCount = task.commentsCount;
   }
 
-  public toObject(): TaskEntity {
+  public toObject() {
     return {...this};
   }
 

@@ -1,25 +1,19 @@
--- CreateEnum
-CREATE TYPE "City" AS ENUM ('Moscow', 'SaintPetersburg', 'Vladivostok');
-
--- CreateEnum
-CREATE TYPE "TaskStatus" AS ENUM ('New', 'Canceled', 'InWork', 'Completed', 'Failed');
-
 -- CreateTable
 CREATE TABLE "tasks" (
     "_id" SERIAL NOT NULL,
     "title" TEXT NOT NULL DEFAULT '',
     "description" TEXT NOT NULL DEFAULT '',
-    "categoty_id" INTEGER NOT NULL,
+    "category_id" INTEGER NOT NULL,
     "price" INTEGER DEFAULT 0,
     "dueDate" TIMESTAMP(3),
     "image" TEXT DEFAULT '',
     "address" TEXT DEFAULT '',
     "tags" TEXT[],
-    "city" "City" NOT NULL,
+    "city" TEXT NOT NULL,
     "user_id" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publish_at" TIMESTAMP(3) NOT NULL,
-    "status" "TaskStatus" NOT NULL,
+    "status" TEXT NOT NULL,
     "responses" TEXT[],
     "responses_total" INTEGER DEFAULT 0,
     "comments_total" INTEGER DEFAULT 0,
@@ -39,4 +33,4 @@ CREATE TABLE "categories" (
 CREATE UNIQUE INDEX "categories_title_key" ON "categories"("title");
 
 -- AddForeignKey
-ALTER TABLE "tasks" ADD CONSTRAINT "tasks_categoty_id_fkey" FOREIGN KEY ("categoty_id") REFERENCES "categories"("_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tasks" ADD CONSTRAINT "tasks_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("_id") ON DELETE RESTRICT ON UPDATE CASCADE;
