@@ -1,18 +1,16 @@
 @baseUrl = http://localhost:3100/api
 
 #Create task
-POST {{baseUrl}}/tasks/create HTTP/1.1
+POST {{baseUrl}}/tasks HTTP/1.1
 Content-Type: application/json
 
 {
   "title": "Дверь мне запили. Срочно",
   "description": "Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.",
-  "category": "Двери",
   "price": 1000,
-  "dueDate": "2023-08-29",
   "address": "переулок Дверной запил, 21",
   "tags": ["запилить"],
-  "city": "Москва"
+  "city": "Moscow"
 }
 
 ###
@@ -22,7 +20,12 @@ GET {{baseUrl}}/tasks/77349651-e4a7-4bbe-bddc-576dd0e8b613 HTTP/1.1
 
 ###
 
-#Delete Task by ID
+# Get tasks
+GET {{baseUrl}}/tasks HTTP/1.1
+
+###
+
+# Delete Task by ID
 DELETE {{baseUrl}}/tasks/77349651-e4a7-4bbe-bddc-576dd0e8b613 HTTP/1.1
 
 ###

@@ -1,18 +1,17 @@
-import { Category } from './category.interface';
 import { TaskStatus } from './task-status.enum';
-import { UserCity } from './user-city.enum';
+import { City } from './city.enum';
 
 export interface Task {
-  _id?: string;
+  id?: number;
   title: string;
   description: string;
-  category: Category;
+  categoryId: number;
   price?: number;
   dueDate?: Date;
   image?: string;
   address?: string;
   tags?: string[];
-  city: UserCity;
+  city: City;
   userId: string;
   createdAt: Date;
   updatedAt?: Date;

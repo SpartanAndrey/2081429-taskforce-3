@@ -4,11 +4,11 @@ import { UserCustomer } from '@project/shared/app-types';
 
 @Schema()
 
-export class Customer extends Document implements UserCustomer {
+export class TaskUserCustomerModel extends Document implements UserCustomer {
   @Prop({
     default: 0,
   })
-  public publishedTasksCount: number;
+  public publishedTasksCount?: number;
 
   @Prop({
     default: 0,
@@ -22,4 +22,4 @@ export class Customer extends Document implements UserCustomer {
 
 }
 
-export const TaskUserCustomerSchema = SchemaFactory.createForClass(Customer);
+export const TaskUserCustomerSchema = SchemaFactory.createForClass(TaskUserCustomerModel);

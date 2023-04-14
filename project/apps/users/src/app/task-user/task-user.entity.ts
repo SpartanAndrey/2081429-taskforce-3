@@ -1,4 +1,4 @@
-import { User, UserCity, UserRole } from '@project/shared/app-types';
+import { User, City, UserRole } from '@project/shared/app-types';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from './task-user.constant';
 
@@ -6,7 +6,7 @@ export class TaskUserEntity implements User {
   public _id?: string;
   public fullName: string;
   public email: string;
-  public city: UserCity;
+  public city: City;
   public passwordHash: string;
   public role: UserRole;
   public avatar?: string;

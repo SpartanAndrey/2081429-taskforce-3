@@ -1,4 +1,4 @@
-import { Category, TaskStatus, UserCity } from '@project/shared/app-types';
+import { Category, TaskStatus, City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateTaskDto {
@@ -54,7 +54,7 @@ export class UpdateTaskDto {
     description: 'Один город из списка: Москва, Санкт-Петербург, Владивосток.',
     example: 'Москва'
   })
-  public city?: UserCity;
+  public city?: City;
 
   @ApiProperty({
     description: 'Одно из пяти статусов: Новое, Отменено, В работе, Выполнено, Провалено.',

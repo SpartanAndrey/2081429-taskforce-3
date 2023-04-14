@@ -1,16 +1,16 @@
-import { Category, Task, TaskStatus, UserCity } from '@project/shared/app-types';
+import { Task, TaskStatus, City } from '@project/shared/app-types';
 
 export class TaskEntity implements Task {
-  public _id?: string;
+  public id?: number;
   public title: string;
   public description: string;
-  public category: Category;
+  public categoryId: number;
   public price?: number;
   public dueDate?: Date;
   public image?: string;
   public address?: string;
   public tags?: string[];
-  public city: UserCity;
+  public city: City;
   public userId: string;
   public createdAt: Date;
   public updatedAt?: Date;
@@ -23,15 +23,11 @@ export class TaskEntity implements Task {
     this.fillEntity(task);
   }
 
-  public toObject() {
-    return {...this};
-  }
-
   public fillEntity(task: Task) {
-    this._id = task._id;
+    this.id = task.id;
     this.title = task.title;
     this.description = task.description;
-    this.category = task.category;
+    this.categoryId = task.categoryId;
     this.price = task.price;
     this.dueDate = task.dueDate;
     this.image = task.image;
@@ -45,6 +41,10 @@ export class TaskEntity implements Task {
     this.responses = task.responses;
     this.responsesCount = task.responsesCount;
     this.commentsCount = task.commentsCount;
+  }
+
+  public toObject() {
+    return {...this};
   }
 
 }
