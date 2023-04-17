@@ -9,3 +9,4 @@ export * from './lib/user.interface';
 export * from './lib/user-customer.interface';
 export * from './lib/user-contractor.interface';
 export * from './lib/file.interface';
+export * from './lib/token-payload.interface';
