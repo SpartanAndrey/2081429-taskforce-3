@@ -1,5 +1,6 @@
 import { TaskStatus } from './task-status.enum';
 import { City } from './city.enum';
+import { Tag } from './tag.interface';
 
 export interface Task {
   id?: number;
@@ -10,7 +11,7 @@ export interface Task {
   dueDate?: Date;
   image?: string;
   address?: string;
-  tags?: string[];
+  tags?: Tag[];
   city: City;
   userId: string;
   createdAt: Date;

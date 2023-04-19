@@ -21,7 +21,7 @@ GET {{baseUrl}}/tasks/77349651-e4a7-4bbe-bddc-576dd0e8b613 HTTP/1.1
 ###
 
 # Get tasks
-GET {{baseUrl}}/tasks HTTP/1.1
+GET {{baseUrl}}/tasks?sortDirection=desc&tags=1&limit=2&page=1 HTTP/1.1
 
 ###
 

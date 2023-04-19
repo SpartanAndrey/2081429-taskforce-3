@@ -1,0 +1,36 @@
+@baseUrl = http://localhost:3100/api
+
+# Create a new tag
+POST {{baseUrl}}/tags HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "косарь"
+}
+
+###
+
+# Get tag by ID
+GET {{baseUrl}}/tags/1 HTTP/1.1
+
+###
+
+# Get all tags
+GET {{baseUrl}}/tags HTTP/1.1
+
+###
+
+# Update the tag by ID
+PATCH {{baseUrl}}/tags/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "новый тэг"
+}
+
+###
+
+# Delete tag by ID
+DELETE {{baseUrl}}/tags/2 HTTP/1.1
+
+###

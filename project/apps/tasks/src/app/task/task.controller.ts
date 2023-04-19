@@ -1,9 +1,10 @@
 import { TaskService } from './task.service';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { fillObject } from '@project/util/util-core';
 import { TaskRdo } from './rdo/task.rdo';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { TaskQuery } from './query/task.query';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -25,8 +26,8 @@ export class TaskController {
   }
 
   @Get('/')
-  async index() {
-    const tasks = await this.taskService.getTasks();
+  async index(@Query() query: TaskQuery) {
+    const tasks = await this.taskService.getTasks(query);
     return fillObject(TaskRdo, tasks);
   }
 

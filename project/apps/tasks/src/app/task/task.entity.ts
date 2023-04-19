@@ -1,4 +1,4 @@
-import { Task, TaskStatus, City } from '@project/shared/app-types';
+import { Task, TaskStatus, City, Tag } from '@project/shared/app-types';
 
 export class TaskEntity implements Task {
   public id?: number;
@@ -9,7 +9,7 @@ export class TaskEntity implements Task {
   public dueDate?: Date;
   public image?: string;
   public address?: string;
-  public tags?: string[];
+  public tags?: Tag[];
   public city: City;
   public userId: string;
   public createdAt: Date;
@@ -32,7 +32,7 @@ export class TaskEntity implements Task {
     this.dueDate = task.dueDate;
     this.image = task.image;
     this.address = task.address;
-    this.tags = task.tags;
+    this.tags = [...task.tags];
     this.city = task.city;
     this.userId = task.userId;
     this.createdAt = task.createdAt;
@@ -44,7 +44,10 @@ export class TaskEntity implements Task {
   }
 
   public toObject() {
-    return {...this};
+    return {
+      ...this,
+      tags: [...this.tags]
+    };
   }
 
 }

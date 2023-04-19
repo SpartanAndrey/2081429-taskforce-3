@@ -19,7 +19,18 @@ async function fillDb() {
           price: 300,
           dueDate: new Date('2023-05-25'),
           address: '',
-          tags: [''],
+          tags: {
+            connectOrCreate: [
+              {
+                create: {title: 'пенек'},
+                where: {title: 'пенек'},
+              },
+              {
+                create: {title: 'сесть'},
+                where: {title: 'сесть'},
+              }
+            ]
+          },
           city: 'Moscow',
           userId: '',
           status: 'New',

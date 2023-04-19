@@ -21,7 +21,7 @@ model Task {
   dueDate        DateTime?
   image          String?    @default("")
   address        String?    @default("")
-  tags           String[]
+  tags           Tag[]
   city           City
   userId         String?  @map("user_id")
   createdAt      DateTime   @default(now()) @map("created_at")
@@ -40,6 +40,14 @@ model Category {
   tasks          Task[]
 
   @@map("categories")
+}
+
+model Tag {
+  tagId             Int       @id @default(autoincrement()) @map("tag_id")
+  title             String    @unique
+  tasks             Task[]
+
+  @@map("tags")
 }
 
 enum City {

@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Category, TaskStatus, City } from '@project/shared/app-types';
+import { Category, TaskStatus, City, Tag } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TaskRdo {
@@ -64,7 +64,7 @@ export class TaskRdo {
     example: 'запилить'
   })
   @Expose()
-  public tags: string[];  
+  public tags: Tag[];  
 
   @ApiProperty({
     description: 'Один город из списка: Москва, Санкт-Петербург, Владивосток.',
