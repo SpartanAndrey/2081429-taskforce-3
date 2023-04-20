@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:3000/api
+@accessToken = {{login.response.body.$.accessToken}}
+@userId = {{login.response.body.$.id}}
 
 # Create a new user
 POST {{baseUrl}}/auth/register HTTP/1.1
@@ -15,13 +17,8 @@ Content-Type: application/json
 
 ###
 
-# Get user by ID
-GET {{baseUrl}}/auth/643d76d219d0332770437681 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDNkNzZkMjE5ZDAzMzI3NzA0Mzc2ODEiLCJmdWxsbmFtZSI6IlNwYXJ0YW4gU3BhcnRhbnljaCIsImVtYWlsIjoic3BhcnRhQGdtYWlsLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImlhdCI6MTY4MTc0OTcyMiwiZXhwIjoxNjgxNzQ5NzIyfQ.QbhmSeW_nPqHxus-b-V1egpg9MNp3sihkKiwKKAGm_c
-
-###
-
 # Login user by email and password
+# @name login
 POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: application/json
 
@@ -29,5 +26,11 @@ Content-Type: application/json
   "email": "sparta@gmail.com",
   "password": "123456"
 }
+
+###
+
+# Get user by ID
+GET {{baseUrl}}/auth/{{userId}} HTTP/1.1
+Authorization: Bearer {{accessToken}}
 
 ###
