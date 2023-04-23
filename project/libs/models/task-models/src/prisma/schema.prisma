@@ -12,16 +12,16 @@ datasource db {
 }
 
 model Task {
-  taskId         Int        @id @default(autoincrement()) @map("_id")
+  taskId         Int        @id @default(autoincrement()) @map("task_id")
   title          String     @default("")
   description    String     @default("")
   category       Category   @relation(fields: [categoryId], references: [id])
-  categoryId     Int @map("category_id")
+  categoryId     Int        @map("category_id")
   price          Int?       @default(0)
   dueDate        DateTime?
   image          String?    @default("")
   address        String?    @default("")
-  tags           Tag[]
+  tags           String[]
   city           City
   userId         String?  @map("user_id")
   createdAt      DateTime   @default(now()) @map("created_at")
@@ -40,14 +40,6 @@ model Category {
   tasks          Task[]
 
   @@map("categories")
-}
-
-model Tag {
-  tagId             Int       @id @default(autoincrement()) @map("tag_id")
-  title             String    @unique
-  tasks             Task[]
-
-  @@map("tags")
 }
 
 enum City {

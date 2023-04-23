@@ -26,8 +26,6 @@ export class TaskQuery {
   @IsOptional()
   public status?: TaskStatus;
 
-  @Transform(({ value }) => value.split(',').map((tagId) => +tagId))
-  @IsArray({})
   @IsOptional()
-  public tags?: number[];
+  public tag: string;
 }

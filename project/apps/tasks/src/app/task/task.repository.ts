@@ -14,14 +14,7 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
     return this.prisma.task.create({
       data: {
         ...entityData,
-        tags: {
-          connect: entityData.tags
-            .map(({ tagId }) => ({ tagId }))
-        }
       },
-      include: {
-        tags: true,
-      }
     });
   }
 
@@ -41,23 +34,16 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
     });
   }
 
-  public find({limit, sortDirection, page, city, status, tags}: TaskQuery): Promise<Task[]> {
+  public find({limit, sortDirection, page, city, status, tag}: TaskQuery): Promise<Task[]> {
     return this.prisma.task.findMany({
       where: {
         status: status,
         city: city,
         tags: {
-          some: {
-            tagId: {
-              in: tags
-            }
-          }
-        }
+          has: tag,
+        },
       },
       take: limit,
-      include: {
-        tags: true,
-      },
       orderBy: [
         { createdAt: sortDirection }
       ],

@@ -19,9 +19,8 @@ export class TaskController {
     description: 'The task found.'
   })
   @Get('/:id')
-  async show(@Param('id') id: string) {
-    const taskId = parseInt(id, 10);
-    const existTask = await this.taskService.getTask(taskId);
+  async show(@Param('id') id: number) {
+    const existTask = await this.taskService.getTask(id);
     return fillObject(TaskRdo, existTask);
   }
 
@@ -48,8 +47,7 @@ export class TaskController {
   })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async destroy(@Param('id') id: string) {
-    const taskId = parseInt(id, 10);
-    this.taskService.deleteTask(taskId);
+  async destroy(@Param('id') id: number) {
+    this.taskService.deleteTask(id);
   }
 }

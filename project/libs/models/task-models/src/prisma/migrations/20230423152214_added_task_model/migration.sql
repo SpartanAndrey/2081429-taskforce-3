@@ -1,6 +1,12 @@
+-- CreateEnum
+CREATE TYPE "City" AS ENUM ('Moscow', 'SaintPetersburg', 'Vladivostok');
+
+-- CreateEnum
+CREATE TYPE "TaskStatus" AS ENUM ('New', 'Canceled', 'InWork', 'Completed', 'Failed');
+
 -- CreateTable
 CREATE TABLE "tasks" (
-    "_id" SERIAL NOT NULL,
+    "task_id" SERIAL NOT NULL,
     "title" TEXT NOT NULL DEFAULT '',
     "description" TEXT NOT NULL DEFAULT '',
     "category_id" INTEGER NOT NULL,
@@ -9,16 +15,16 @@ CREATE TABLE "tasks" (
     "image" TEXT DEFAULT '',
     "address" TEXT DEFAULT '',
     "tags" TEXT[],
-    "city" TEXT NOT NULL,
+    "city" "City" NOT NULL,
     "user_id" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publish_at" TIMESTAMP(3) NOT NULL,
-    "status" TEXT NOT NULL,
+    "status" "TaskStatus" NOT NULL,
     "responses" TEXT[],
     "responses_total" INTEGER DEFAULT 0,
     "comments_total" INTEGER DEFAULT 0,
 
-    CONSTRAINT "tasks_pkey" PRIMARY KEY ("_id")
+    CONSTRAINT "tasks_pkey" PRIMARY KEY ("task_id")
 );
 
 -- CreateTable
