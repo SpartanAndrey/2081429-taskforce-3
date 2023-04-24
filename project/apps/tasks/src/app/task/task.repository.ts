@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
 import { TaskEntity } from './task.entity';
-import { Task } from '@prisma/client';
+import { Task } from '../../../../../node_modules/.prisma/tasks-client'
 import { TaskQuery } from './query/task.query';
 
 @Injectable()

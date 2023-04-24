@@ -1,5 +1,5 @@
 import { City, TaskStatus } from '@project/shared/app-types';
-import { IsIn, IsNumber, IsOptional, IsArray } from 'class-validator';
+import { IsIn, IsNumber, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { DEFAULT_TASK_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from '../task.constant';
 
