@@ -1,8 +1,9 @@
 export interface Review {
-  _id?: string;
+  id?: number;
   review: string;
-  taskId: string;
+  taskId: number;
   rating: number;
   userId: string;
+  contractorId: string;
   createdAt: Date;
 }

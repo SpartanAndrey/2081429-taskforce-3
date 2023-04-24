@@ -22,6 +22,9 @@
       "@project/models/comments-models": [
         "libs/models/comments-models/src/index.ts"
       ],
+      "@project/models/reviews-models": [
+        "libs/models/reviews-models/src/index.ts"
+      ],
       "@project/models/task-models": ["libs/models/task-models/src/index.ts"],
       "@project/shared/app-types": ["libs/shared/app-types/src/index.ts"],
       "@project/shared/shared-pipes": ["libs/shared/shared-pipes/src/index.ts"],

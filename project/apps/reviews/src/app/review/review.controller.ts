@@ -28,8 +28,8 @@ export class ReviewController {
     status: HttpStatus.OK,
     description: 'The review found.'
   })
-  @Get(':id')
-  public async get(@Param('id') id: string) {
+  @Get(':id') 
+  public async get(@Param('id') id: number) {
     const existReview = await this.reviewService.getReview(id);
 
     return fillObject(ReviewRdo, existReview);
@@ -41,8 +41,19 @@ export class ReviewController {
   })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async delete(@Param('id') id: string) {
+  public async delete(@Param('id') id: number) {
     await this.reviewService.delete(id);
+  }
+
+  @ApiResponse({
+    type: ReviewRdo,
+    status: HttpStatus.OK,
+    description: 'The reviews found.'
+  })
+  @Get('/:contractorId')
+  async indexExecutorEvaluations(@Param('contractorId') contractorId: string) {
+    const reviews = await this.reviewService.getByContractorId(contractorId);
+    return fillObject(ReviewRdo, reviews);
   }
 
 }

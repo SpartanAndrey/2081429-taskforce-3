@@ -4,10 +4,10 @@ import {ApiProperty} from "@nestjs/swagger";
 export class ReviewRdo {
   @ApiProperty({
     description: 'Уникальный идентификатор отзыва.',
-    example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
+    example: '10'
   })
   @Expose({name: 'id'})
-  public id: string;
+  public id: number;
 
   @ApiProperty({
     description: 'Текст отзыва.',
@@ -21,7 +21,7 @@ export class ReviewRdo {
     example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
   })
   @Expose()
-  public taskId: string;
+  public taskId: number;
 
   @ApiProperty({
     description: 'Оценка исполнителя. Число от 1 до 5.',
@@ -36,6 +36,13 @@ export class ReviewRdo {
   })
   @Expose()
   public userId: string;
+
+  @ApiProperty({
+    description: 'Уникальный идентификатор исполнителя.',
+    example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
+  })
+  @Expose()
+  public contractorId: string;
 
   @ApiProperty({
     description: 'Дата создания.',

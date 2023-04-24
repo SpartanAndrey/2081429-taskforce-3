@@ -1,11 +1,12 @@
 import { Review } from '@project/shared/app-types';
 
 export class ReviewEntity implements Review {
-  public _id?: string;
+  public id: number;
   public review: string;
-  public taskId: string;
+  public taskId: number;
   public rating: number;
   public userId: string;
+  public contractorId: string;
   public createdAt: Date;
 
   constructor(review: Review) {
@@ -17,11 +18,12 @@ export class ReviewEntity implements Review {
   }
 
   public fillEntity(review: Review) {
-    this._id = review._id;
+    this.id = review.id;
     this.review = review.review;
     this.taskId = review.taskId;
     this.rating = review.rating;
     this.userId = review.userId;
+    this.contractorId = review.contractorId;
     this.createdAt = review.createdAt;
   }
 
