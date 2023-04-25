@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
 import { ReviewEntity } from './review.entity';
-import { Review } from '@prisma/client';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { Review } from '.prisma/reviews-client';
 
 @Injectable()
 export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Review> {

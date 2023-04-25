@@ -1,17 +1,19 @@
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { PrismaClient } from '.prisma/comments-client';
+import { PrismaClient } from '.prisma/reviews-client';
 
 const prisma = new PrismaClient();
 
 async function fillDb() {
-    await prisma.comment.upsert({
+    await prisma.review.upsert({
       where: { id: 1 },
       update: {},
       create:
         {
-          comment: 'Что за задание, запишите кто-нить голосовое - я не умею читать.',
+          review: 'Отличная работа, всем очень доволен, больше не обращусь конечно же, так как я иррационален.',
           taskId: 2,
-          userId: 'asd-123'
+          rating: 3,
+          userId: 'asd-123',
+          contractorId: 'asd-124'
         },
     });
     console.info('🤘️ Database was filled')

@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
 import { TaskEntity } from './task.entity';
-import { Task } from '../../../../../node_modules/.prisma/tasks-client'
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { Task } from '.prisma/tasks-client';
 import { TaskQuery } from './query/task.query';
 
 @Injectable()

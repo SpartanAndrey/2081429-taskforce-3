@@ -29,6 +29,6 @@ GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1 HTTP/1.1
 ###
 
 # Delete Task by ID
-DELETE {{baseUrl}}/tasks/{{taskId}}HTTP/1.1
+DELETE {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
 
 ###

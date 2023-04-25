@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/util/util-types';
 import { PrismaService } from '../prisma/prisma.service';
 import { CommentEntity } from './comment.entity';
-import { Comment } from '@prisma/client';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { Comment } from '.prisma/comments-client'
 import { CommentQuery } from './query/comment.query';
 
 @Injectable()

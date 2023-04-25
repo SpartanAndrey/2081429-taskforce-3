@@ -1,4 +1,5 @@
-import { PrismaClient } from '../../../../../node_modules/.prisma/tasks-client'
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { PrismaClient } from '.prisma/tasks-client';
 
 const prisma = new PrismaClient();
 
