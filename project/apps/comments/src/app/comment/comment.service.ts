@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
-import { CommentMemoryRepository } from './comment-memory.repository';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentEntity } from './comment.entity';
+import { CommentRepository } from './comment.repository';
+import { CommentQuery } from './query/comment.query';
 
 @Injectable()
-export class CommentService {
+export class CommentService {1
   constructor(
-    private readonly commentRepository: CommentMemoryRepository
+    private readonly commentRepository: CommentRepository
   ) {}
   
   public async create(dto: CreateCommentDto) {
@@ -18,12 +19,19 @@ export class CommentService {
     return this.commentRepository.create(commentEntity);
   }
 
-  public async getComment(id: string) {
+  public async getComment(id: number) {
     return this.commentRepository.findById(id);
   }
 
-  public async delete(id: string) {
+  async getComments(query: CommentQuery) {
+    return this.commentRepository.find(query);
+  }
+
+  public async delete(id: number) {
     return this.commentRepository.destroy(id);
   }
 
+  async deleteComments(taskId: number) {
+    await this.commentRepository.destroyByTaskId(taskId);
+  }
 }

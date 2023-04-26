@@ -7,7 +7,7 @@ export class TaskRdo {
     description: 'Уникальный идентификатор задания.',
     example: 300
   })
-  @Expose({ name: '_id'})
+  @Expose({ name: 'taskId'})
   public id: number;
 
   @ApiProperty({

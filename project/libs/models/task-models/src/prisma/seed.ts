@@ -1,4 +1,5 @@
-import { PrismaClient } from '../../../../../node_modules/.prisma/client'
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { PrismaClient } from '.prisma/tasks-client';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +20,7 @@ async function fillDb() {
           price: 300,
           dueDate: new Date('2023-05-25'),
           address: '',
-          tags: [''],
+          tags: ["косарь", "пенёк"],
           city: 'Moscow',
           userId: '',
           status: 'New',

@@ -1,9 +1,10 @@
 import { TaskService } from './task.service';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { fillObject } from '@project/util/util-core';
 import { TaskRdo } from './rdo/task.rdo';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { TaskQuery } from './query/task.query';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -18,15 +19,14 @@ export class TaskController {
     description: 'The task found.'
   })
   @Get('/:id')
-  async show(@Param('id') id: string) {
-    const taskId = parseInt(id, 10);
-    const existTask = await this.taskService.getTask(taskId);
+  async show(@Param('id') id: number) {
+    const existTask = await this.taskService.getTask(id);
     return fillObject(TaskRdo, existTask);
   }
 
   @Get('/')
-  async index() {
-    const tasks = await this.taskService.getTasks();
+  async index(@Query() query: TaskQuery) {
+    const tasks = await this.taskService.getTasks(query);
     return fillObject(TaskRdo, tasks);
   }
 
@@ -47,8 +47,7 @@ export class TaskController {
   })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async destroy(@Param('id') id: string) {
-    const taskId = parseInt(id, 10);
-    this.taskService.deleteTask(taskId);
+  async destroy(@Param('id') id: number) {
+    this.taskService.deleteTask(id);
   }
 }

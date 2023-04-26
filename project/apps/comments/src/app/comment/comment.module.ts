@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
-import { CommentMemoryRepository } from './comment-memory.repository';
+import { CommentRepository } from './comment.repository';
 
 @Module({
   controllers: [CommentController],
-  providers: [CommentService, CommentMemoryRepository],
+  providers: [CommentService, CommentRepository],
+  exports: [CommentRepository]
 })
 export class CommentModule {}

@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
-import { ReviewMemoryRepository } from './review-memory.repository';
+import { ReviewRepository } from './review.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewEntity } from './review.entity';
 
 @Injectable()
 export class ReviewService {
   constructor(
-    private readonly reviewRepository: ReviewMemoryRepository
+    private readonly reviewRepository: ReviewRepository
   ) {}
   
   public async create(dto: CreateReviewDto) {
@@ -18,12 +18,20 @@ export class ReviewService {
     return this.reviewRepository.create(reviewEntity);
   }
 
-  public async getReview(id: string) {
+  public async getReview(id: number) {
     return this.reviewRepository.findById(id);
   }
 
-  public async delete(id: string) {
+  async getByContractorId(contractorId: string) {
+    return this.reviewRepository.findByContractorId(contractorId);
+  }
+
+  public async delete(id: number) {
     return this.reviewRepository.destroy(id);
+  }
+
+  async deletByContractorId(contractorId: string) {
+    return this.reviewRepository.destroyByContractorId(contractorId);
   }
 
 }

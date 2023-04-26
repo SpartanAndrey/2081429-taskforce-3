@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:3000/api
+@accessToken = {{login.response.body.$.accessToken}}
+@userId = {{login.response.body.$.id}}
 
 # Create a new user
 POST {{baseUrl}}/auth/register HTTP/1.1
@@ -7,7 +9,7 @@ Content-Type: application/json
 {
   "fullName": "Spartan Spartanych",
   "email": "sparta@gmail.com",
-  "city": "Москва",
+  "city": "Moscow",
   "password": "123456",
   "role": "Customer",
   "dateBirth": "2022-02-22"
@@ -15,12 +17,8 @@ Content-Type: application/json
 
 ###
 
-# Get user by ID
-GET {{baseUrl}}/auth/6429a367af70e280a3855b20 HTTP/1.1
-
-###
-
 # Login user by email and password
+# @name login
 POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: application/json
 
@@ -28,5 +26,11 @@ Content-Type: application/json
   "email": "sparta@gmail.com",
   "password": "123456"
 }
+
+###
+
+# Get user by ID
+GET {{baseUrl}}/auth/{{userId}} HTTP/1.1
+Authorization: Bearer {{accessToken}}
 
 ###

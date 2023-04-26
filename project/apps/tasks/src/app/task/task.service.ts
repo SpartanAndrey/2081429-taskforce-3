@@ -4,14 +4,15 @@ import { TaskStatus } from '@project/shared/app-types';
 import { TaskRepository } from './task.repository';
 import { Injectable } from '@nestjs/common';
 import { TaskEntity } from './task.entity';
+import { TaskQuery } from './query/task.query';
 
 @Injectable()
 export class TaskService {
   constructor(
-    private readonly taskRepository: TaskRepository
+    private readonly taskRepository: TaskRepository,
   ) {}
 
-  async createTask(dto: CreateTaskDto) { //походу не нужно определять тип возвращаеого объекта
+  async createTask(dto: CreateTaskDto) {
 
     const taskDto = {...dto, userId: '', categoryId: 1, createdAt: dayjs('2023-03-26').toDate(), status: TaskStatus.New};
     const taskEntity = new TaskEntity(taskDto);
@@ -26,7 +27,7 @@ export class TaskService {
     return this.taskRepository.findById(id);
   }
 
-  async getTasks() {
-    return this.taskRepository.find();
+  async getTasks(query: TaskQuery) {
+    return this.taskRepository.find(query);
   }
 }

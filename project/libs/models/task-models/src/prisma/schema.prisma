@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../../../node_modules/.prisma/client"
+  output = "../../../../../node_modules/.prisma/tasks-client"
 }
 
 datasource db {
@@ -12,11 +12,11 @@ datasource db {
 }
 
 model Task {
-  taskId         Int        @id @default(autoincrement()) @map("_id")
+  taskId         Int        @id @default(autoincrement()) @map("task_id")
   title          String     @default("")
   description    String     @default("")
   category       Category   @relation(fields: [categoryId], references: [id])
-  categoryId     Int @map("category_id")
+  categoryId     Int        @map("category_id")
   price          Int?       @default(0)
   dueDate        DateTime?
   image          String?    @default("")
@@ -40,6 +40,14 @@ model Category {
   tasks          Task[]
 
   @@map("categories")
+}
+
+model Comment {
+  id            Int        @id @default(autoincrement())
+  comment       String
+  taskId        Int        @map("task_id")
+  userId        String     @map("user_id")
+  createdAt     DateTime   @default(now()) @map("created_at")
 }
 
 enum City {

@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../../../../../node_modules/.prisma/reviews-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Review {
+  id            Int        @id @default(autoincrement())
+  review        String
+  taskId        Int        @map("task_id")
+  rating        Int
+  userId        String     @map("user_id")
+  contractorId  String     @map("contractor_id")
+  createdAt     DateTime   @default(now()) @map("created_at")
+}
