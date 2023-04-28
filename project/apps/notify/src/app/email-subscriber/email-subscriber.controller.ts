@@ -4,6 +4,7 @@ import { Controller } from '@nestjs/common';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { RabbitRouting } from '@project/shared/app-types';
 import { MailService } from '../mail/mail.service';
+import { Subscriber, UserRole } from '@project/shared/app-types';
 
 @Controller()
 export class EmailSubscriberController {
@@ -20,5 +21,15 @@ export class EmailSubscriberController {
   public async create(subscriber: CreateSubscriberDto) {
     this.subscriberService.addSubscriber(subscriber);
     this.mailService.sendNotifyNewSubscriber(subscriber);
+  }
+
+  @RabbitSubscribe({
+    exchange: 'taskforce.notify',
+    routingKey: RabbitRouting.NewTask,
+    queue: 'taskforce.notify',
+  })
+  public async sendAll(role: UserRole, subscribers: Subscriber[]) {
+    this.subscriberService.getSubscribers(role);
+    this.mailService.sendNotifyAllSubscribers(subscribers);
   }
 }

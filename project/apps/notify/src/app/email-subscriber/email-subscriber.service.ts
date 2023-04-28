@@ -2,6 +2,7 @@ import { EmailSubscriberEntity } from './email-subscriber.entity';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
 import { Injectable } from '@nestjs/common';
+import { Subscriber, UserRole } from '@project/shared/app-types';
 
 @Injectable()
 export class EmailSubscriberService {
@@ -19,6 +20,10 @@ export class EmailSubscriberService {
 
     return this.emailSubscriberRepository
       .create(new EmailSubscriberEntity(subscriber));
+  }
+
+  public async getSubscribers(userRole: UserRole): Promise<Subscriber[]> {
+    return this.emailSubscriberRepository.findByRole(userRole);
   }
 }
 

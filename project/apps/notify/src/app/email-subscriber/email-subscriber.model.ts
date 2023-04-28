@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Subscriber } from '@project/shared/app-types';
+import { UserRole } from '@project/shared/app-types';
 
 const SUBSCRIBERS_COLLECTION_NAME = 'email-subscribers';
 
@@ -14,6 +15,12 @@ export class EmailSubscriberModel extends Document implements  Subscriber {
 
   @Prop()
   public fullName: string;
+
+  @Prop({
+    type: String, 
+    enum: UserRole
+  })
+  public role: UserRole;
 
 }
 
