@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import dayjs from 'dayjs';
 import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
@@ -7,6 +7,8 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { TaskUserRepository } from '../task-user/task-user.repository';
 import { TokenPayload, User } from '@project/shared/app-types';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
+import { jwtConfig } from '@project/config/config-users';
 
 
 @Injectable()
@@ -14,6 +16,7 @@ export class AuthenticationService {
   constructor(
     private readonly taskUserRepository: TaskUserRepository,
     private readonly jwtService: JwtService,
+    @Inject (jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>,
     ) {}
     
   public async register(dto: CreateUserDto) {
@@ -67,6 +70,10 @@ export class AuthenticationService {
 
     return {
       accessToken: await this.jwtService.signAsync(payload),
+      refreshToken: await this.jwtService.signAsync(payload, {
+        secret: this.jwtOptions.refreshTokenSecret,
+        expiresIn: this.jwtOptions.refreshTokenExpiresIn
+      })
     }
   }
 }
