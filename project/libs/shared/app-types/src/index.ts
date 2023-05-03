@@ -15,3 +15,4 @@ export * from './lib/rabbit-routing.enum';
 export * from './lib/request-with.user';
 export * from './lib/refresh-token-payload.interface';
 export * from './lib/token.interface';
+export * from './lib/sort-type.enum';

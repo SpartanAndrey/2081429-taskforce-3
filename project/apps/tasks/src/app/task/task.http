@@ -13,7 +13,8 @@ Content-Type: application/json
   "price": 1000,
   "address": "переулок Дверной запил, 21",
   "city": "Moscow",
-  "tags": ["дверь", "запилить"]
+  "tags": ["дверь", "запилить"],
+  "userId": "A123"
 }
 
 ###

@@ -13,6 +13,7 @@ export interface Task {
   tags?: string[];
   city: City;
   userId: string;
+  contractorId?: string;
   createdAt: Date;
   updatedAt?: Date;
   status: TaskStatus;

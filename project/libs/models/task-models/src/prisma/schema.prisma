@@ -24,6 +24,7 @@ model Task {
   tags           String[]
   city           City
   userId         String?  @map("user_id")
+  contractorId   String?  @map("contractor_id")
   createdAt      DateTime   @default(now()) @map("created_at")
   updatedAt      DateTime   @updatedAt  @map("publish_at")
   status         TaskStatus

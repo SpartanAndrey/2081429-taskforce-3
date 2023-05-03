@@ -12,6 +12,7 @@ export class TaskEntity implements Task {
   public tags?: string[];
   public city: City;
   public userId: string;
+  public contractorId?: string;
   public createdAt: Date;
   public updatedAt?: Date;
   public status: TaskStatus;
@@ -34,6 +35,7 @@ export class TaskEntity implements Task {
     this.tags = task.tags;
     this.city = task.city;
     this.userId = task.userId;
+    this.contractorId = task.contractorId;
     this.createdAt = task.createdAt;
     this.updatedAt = task.updatedAt;
     this.status = task.status;

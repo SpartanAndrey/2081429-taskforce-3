@@ -1,5 +1,8 @@
+import { SortType } from "@project/shared/app-types";
+
 export const DEFAULT_TASK_COUNT_LIMIT = 25;
 export const DEFAULT_SORT_DIRECTION = 'desc';
+export const DEFAULT_SORT_TYPE = SortType.CreatedAt;
 
 
 export const minTitleLength = 20;

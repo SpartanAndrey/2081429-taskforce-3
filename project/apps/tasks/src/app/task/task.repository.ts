@@ -16,6 +16,9 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
       data: {
         ...entityData,
       },
+      include: {
+        category: true,
+      }
     });
   }
 
@@ -23,6 +26,9 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
     await this.prisma.task.delete({
       where: {
         taskId,
+      },
+      include: {
+        category: true,
       }
     });
   }
@@ -31,11 +37,14 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
     return this.prisma.task.findFirst({
       where: {
         taskId
+      },
+      include: {
+        category: true,
       }
     });
   }
 
-  public find({limit, sortDirection, page, city, status, tag}: TaskQuery): Promise<Task[]> {
+  public find({limit, sortDirection, sortType, page, city, status, tag, userId, contractorId}: TaskQuery): Promise<Task[]> {
     return this.prisma.task.findMany({
       where: {
         status: status,
@@ -43,10 +52,15 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
         tags: {
           has: tag,
         },
+        userId: userId,
+        contractorId: contractorId,
+      },
+      include: {
+        category: true,
       },
       take: limit,
       orderBy: [
-        { createdAt: sortDirection }
+        { [sortType]: [sortDirection] }
       ],
       skip: page > 0 ? limit * (page - 1) : undefined,
     });
