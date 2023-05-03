@@ -17,8 +17,8 @@ export class TaskUserRepository implements CRUDRepository<TaskUserEntity, string
     return newTaskUser.save();
   }
 
-  public async destroy(id: string): Promise<void> {
-    this.taskUserModel.deleteOne({id});
+  public async destroy(_id: string): Promise<void> {
+    this.taskUserModel.deleteOne({_id});
   }
 
   public async findById(_id: string): Promise<User | null> {
@@ -33,9 +33,9 @@ export class TaskUserRepository implements CRUDRepository<TaskUserEntity, string
       .exec();
   }
 
-  public async update(id: string, item: TaskUserEntity): Promise<User> {
+  public async update(_id: string, item: TaskUserEntity): Promise<User> {
     return this.taskUserModel
-      .findByIdAndUpdate(id, item.toObject(), {new: true})
+      .findByIdAndUpdate(_id, item.toObject(), {new: true})
       .exec();
   }
 }

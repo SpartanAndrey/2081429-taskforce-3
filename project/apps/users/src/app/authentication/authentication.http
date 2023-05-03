@@ -42,3 +42,26 @@ POST {{baseUrl}}/auth/refresh HTTP/1.1
 Authorization: Bearer {{refreshToken}}
 
 ###
+
+# Update password
+PATCH {{baseUrl}}/auth/{{userId}}/password HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "password": "123456",
+  "newPassword": "098765"
+}
+
+###
+
+# Update user data
+PATCH {{baseUrl}}/auth/{{userId}} HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "fullName": "Dinam Dinamych"
+}
+
+###

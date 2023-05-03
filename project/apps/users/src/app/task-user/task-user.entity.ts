@@ -18,7 +18,7 @@ export class TaskUserEntity implements User {
   public rating?: number;
   public completedTasksCount?: number;
   public failedTasksCount?: number;
-  public specialization?: string;
+  public specializations?: string[];
   public ratingPlace?: number;
 
   constructor(taskUser: User) {
@@ -45,7 +45,7 @@ export class TaskUserEntity implements User {
     this.rating = taskUser.rating;
     this.completedTasksCount = taskUser.completedTasksCount;
     this.failedTasksCount = taskUser.failedTasksCount;
-    this.specialization = taskUser.specialization;
+    this.specializations = taskUser.specializations;
     this.ratingPlace = taskUser.ratingPlace;
   }
 

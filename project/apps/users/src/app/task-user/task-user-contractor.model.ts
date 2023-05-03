@@ -33,7 +33,7 @@ export class TaskUserContractorModel extends Document implements UserContractor{
   @Prop({
     default: '',
   })
-  public specialization?: string;
+  public specializations?: string[];
 
   @Prop({
     default: 0,

@@ -1,9 +1,11 @@
-import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import dayjs from 'dayjs';
-import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
+import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG, AUTH_USER_FORBIDDEN } from './authentication.constant';
 import { TaskUserEntity } from '../task-user/task-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { TaskUserRepository } from '../task-user/task-user.repository';
 import { User } from '@project/shared/app-types';
 import { JwtService } from '@nestjs/jwt';
@@ -76,5 +78,38 @@ export class AuthenticationService {
         expiresIn: this.jwtOptions.refreshTokenExpiresIn
       })
     }
+  }
+
+  public async updatePassword(id: string, dto: UpdatePasswordDto) {
+    const {password, newPassword} = dto;
+
+    const existUser =  await this.taskUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+    }
+
+    const userEntity = await new TaskUserEntity(existUser);
+    const isPassword = await userEntity
+      .comparePassword(password)
+
+    if (!isPassword) {
+      throw new ForbiddenException(AUTH_USER_FORBIDDEN);
+    }
+
+    await new TaskUserEntity(existUser).setPassword(newPassword);
+
+    return await this.taskUserRepository.update(id, userEntity);
+  }
+
+  async update(id: string, dto: UpdateUserDto) {
+    const existUser = await this.taskUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+    }
+
+    const userEntity = new TaskUserEntity({...existUser, ...dto});
+    return await this.taskUserRepository.update(id, userEntity);
   }
 }

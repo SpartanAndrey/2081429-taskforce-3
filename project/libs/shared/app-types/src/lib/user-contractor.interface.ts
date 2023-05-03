@@ -4,6 +4,6 @@ export interface UserContractor {
   completedTasksCount?: number;
   failedTasksCount?: number;
   personalInfo?: string;
-  specialization?: string;
+  specializations?: string[];
   ratingPlace?: number;
 }
