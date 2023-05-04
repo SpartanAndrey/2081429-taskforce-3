@@ -35,6 +35,18 @@ export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Re
     });
   }
 
+  public async getContractorRatingSum (contractorId: string): Promise<number> {
+    const ratingSum = await this.prisma.review.aggregate({
+      _sum: {
+        rating: true,
+      },
+      where: {
+        contractorId: contractorId,
+        },
+    });
+    return ratingSum._sum.rating;
+  }
+
   public async destroy(id: number): Promise<void> {
     await this.prisma.review.delete({
       where: {

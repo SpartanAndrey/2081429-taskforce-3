@@ -32,6 +32,11 @@ GET {{baseUrl}}/reviews/{{contractorId}} HTTP/1.1
 
 ###
 
+# Get rating sum by contractor ID
+GET {{baseUrl}}/reviews/{{contractorId}}/sum HTTP/1.1
+
+###
+
 #Delete review by ID
 DELETE {{baseUrl}}/reviews/{{reviewId}} HTTP/1.1
 

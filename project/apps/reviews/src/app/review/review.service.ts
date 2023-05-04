@@ -26,11 +26,15 @@ export class ReviewService {
     return this.reviewRepository.findByContractorId(contractorId);
   }
 
+  async getRatingSum(contractorId: string) {
+    return this.reviewRepository.getContractorRatingSum(contractorId);
+  }
+
   public async delete(id: number) {
     return this.reviewRepository.destroy(id);
   }
 
-  async deletByContractorId(contractorId: string) {
+  async deleteByContractorId(contractorId: string) {
     return this.reviewRepository.destroyByContractorId(contractorId);
   }
 
