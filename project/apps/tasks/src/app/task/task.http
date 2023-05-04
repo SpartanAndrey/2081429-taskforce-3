@@ -26,13 +26,34 @@ GET {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
 
 ###
 
+# Update task status by ID
+POST {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId": "A123",
+  "status": "Canceled"
+}
+
+###
+
 # Get tasks
 GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1 HTTP/1.1
 
 ###
 
-# Get new tasks for customer
-GET {{baseUrl}}/tasks/{{userId}}/new HTTP/1.1
+# Get customer tasks count
+GET {{baseUrl}}/tasks/customer/{{userId}} HTTP/1.1
+
+###
+
+# Get contractor tasks count
+GET {{baseUrl}}/tasks/contractor/{{userId}}?status=Completed HTTP/1.1
+
+###
+
+# Get customer tasks //можно список моих заданий запрашивать таким образом?
+GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1&userId={{userId}} HTTP/1.1
 
 ###
 

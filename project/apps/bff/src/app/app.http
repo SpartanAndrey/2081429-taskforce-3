@@ -14,6 +14,12 @@ Content-Type: application/json
 
 ###
 
+# Get user by ID
+GET {{baseUrl}}/users/6453d56164dc4f4927416090 HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+###
+
 # Get new JWT pair
 POST {{baseUrl}}/users/refresh HTTP/1.1
 Authorization: Bearer {{refreshToken}}

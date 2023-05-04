@@ -5,6 +5,7 @@ import { TaskEntity } from './task.entity';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { Task } from '.prisma/tasks-client';
 import { TaskQuery } from './query/task.query';
+import { TaskStatus } from '@project/shared/app-types';
 
 @Injectable()
 export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> {
@@ -77,5 +78,41 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
 
   public update(taskId: number, item: TaskEntity): Promise<Task> {
     return Promise.resolve(undefined);
+  }
+
+  public async updateStatus(taskId: number, status: TaskStatus): Promise<Task> {
+    return await this.prisma.task.update({
+      where: {
+        taskId,
+      },
+      data: {
+        status,
+      },
+      include: {
+        category: true,
+      }
+    })
+  }
+
+  public async countCustomerTasks( { userId, status } : TaskQuery ) {
+    return this.prisma.task.count({
+      where: {
+        AND: [
+          { userId },
+          { status },
+        ],
+      },
+    });
+  }
+
+  public async countContractorTasks( { contractorId, status } : TaskQuery ) {
+    return this.prisma.task.count({
+      where: {
+        AND: [
+          { contractorId },
+          { status },
+        ],
+      },
+    });
   }
 }

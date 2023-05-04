@@ -5,6 +5,7 @@ import { TaskRdo } from './rdo/task.rdo';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TaskQuery } from './query/task.query';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -12,6 +13,17 @@ export class TaskController {
   constructor(
     private readonly taskService: TaskService
   ) {}
+
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.CREATED,
+    description: 'The new task has been successfully created.'
+  })
+  @Post('/')
+  async create(@Body() dto: CreateTaskDto) {
+    const newTask = await this.taskService.createTask(dto);
+    return fillObject(TaskRdo, newTask);
+  }
 
   @ApiResponse({
     type: TaskRdo,
@@ -24,6 +36,17 @@ export class TaskController {
     return fillObject(TaskRdo, existTask);
   }
 
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.CREATED,
+    description: 'The status of task has been successfully updated.'
+  })
+  @Post('/:id')
+  async updateStatus(@Param('id') id: number, @Body() dto: UpdateTaskDto) {
+    const updatedTask = await this.taskService.updateTaskStatus(id, dto);
+    return fillObject(TaskRdo, updatedTask);
+  }
+
   @Get('/')
   async index(@Query() query: TaskQuery) {
     const tasks = await this.taskService.getTasks(query);
@@ -31,20 +54,21 @@ export class TaskController {
   }
 
   @Get('/:userId/new')
-  async getNew(@Param('userId') userId: string, @Query() query: TaskQuery) {
+  async getCustomerTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
     const tasks = await this.taskService.getNewTasks(userId, query);
     return fillObject(TaskRdo, tasks);
   }
 
-  @ApiResponse({
-    type: TaskRdo,
-    status: HttpStatus.CREATED,
-    description: 'The new task has been successfully created.'
-  })
-  @Post('/')
-  async create(@Body() dto: CreateTaskDto) {
-    const newTask = await this.taskService.createTask(dto);
-    return fillObject(TaskRdo, newTask);
+  @Get('/customer/:userId')
+  async getCustomerTasksCount(@Param('userId') userId: string, @Query() query: TaskQuery) {
+    const tasks = await this.taskService.getCustomerTasksNumber(userId, query);
+    return fillObject(TaskRdo, tasks);
+  }
+
+  @Get('/contractor/:contractorId')
+  async getContractorTasksCount(@Param('contractorId') contractorId: string, @Query() query: TaskQuery) {
+    const tasks = await this.taskService.getCustomerTasksNumber(contractorId, query);
+    return fillObject(TaskRdo, tasks);
   }
 
   @ApiResponse({

@@ -24,3 +24,6 @@ export const TASK_ADDRESS_LENGTH = `Task address length shall be between ${minAd
 export const TASK_TAG_LENGTH = `Task tag length shall be between ${minTagLength} and ${maxTagLength} chars.`
 export const TASK_TAGS_NUMBER = `Task tags number shall be no more than ${taskTagNumber}.`
 export const TASK_DUEDATE_NOT_VALID = 'The due date is not valid.';
+
+export const TASK_FORBIDDEN = 'Access is denied.';
+export const TASK_STATUS_CONDITIONS_WRONG = 'Update status conditions are wrong.';
