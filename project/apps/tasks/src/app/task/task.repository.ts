@@ -12,6 +12,7 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
 
   public async create(item: TaskEntity): Promise<Task> {
     const entityData = item.toObject();
+    console.log(entityData)
     return this.prisma.task.create({
       data: {
         ...entityData,
@@ -44,23 +45,31 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
     });
   }
 
-  public find({limit, sortDirection, sortType, page, city, status, tag, userId, contractorId}: TaskQuery): Promise<Task[]> {
+  public find({limit, sortDirection, sortType, page, city, categoryId, status, tag, userId, contractorId}: TaskQuery): Promise<Task[]> {
+
     return this.prisma.task.findMany({
       where: {
         status: status,
         city: city,
-        tags: {
-          has: tag,
-        },
         userId: userId,
         contractorId: contractorId,
+        categoryId: categoryId,
+        tags: (() => {
+          if (!tag) {
+            return undefined;
+          }
+
+          return {
+            hasSome: tag,
+          };
+        })(),
       },
       include: {
         category: true,
       },
       take: limit,
       orderBy: [
-        { [sortType]: [sortDirection] }
+        { [sortType]: sortDirection }
       ],
       skip: page > 0 ? limit * (page - 1) : undefined,
     });

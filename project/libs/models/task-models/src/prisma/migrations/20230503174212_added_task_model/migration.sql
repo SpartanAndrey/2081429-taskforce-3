@@ -17,6 +17,7 @@ CREATE TABLE "tasks" (
     "tags" TEXT[],
     "city" "City" NOT NULL,
     "user_id" TEXT,
+    "contractor_id" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publish_at" TIMESTAMP(3) NOT NULL,
     "status" "TaskStatus" NOT NULL,
@@ -33,6 +34,17 @@ CREATE TABLE "categories" (
     "title" TEXT NOT NULL,
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("_id")
+);
+
+-- CreateTable
+CREATE TABLE "Comment" (
+    "id" SERIAL NOT NULL,
+    "comment" TEXT NOT NULL,
+    "task_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

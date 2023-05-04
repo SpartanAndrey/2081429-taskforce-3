@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:3100/api
 
 @taskId = {{task.response.body.$.id}}
+@userId = {{task.response.body.$.userId}}
 
 #Create task
 # @name task
@@ -10,6 +11,7 @@ Content-Type: application/json
 {
   "title": "Дверь мне запили. Срочно",
   "description": "Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.",
+  "categoryId": 1,
   "price": 1000,
   "address": "переулок Дверной запил, 21",
   "city": "Moscow",
@@ -26,6 +28,11 @@ GET {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
 
 # Get tasks
 GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1 HTTP/1.1
+
+###
+
+# Get new tasks for customer
+GET {{baseUrl}}/tasks/{{userId}}/new HTTP/1.1
 
 ###
 

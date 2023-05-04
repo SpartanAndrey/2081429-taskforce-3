@@ -14,18 +14,18 @@ export class TaskCategoryRepository implements CRUDRepository<TaskCategoryEntity
     });
   }
 
-  public async destroy(id: number): Promise<void> {
+  public async destroy(categoryId: number): Promise<void> {
     await this.prisma.category.delete({
       where: {
-        id,
+        categoryId,
       }
     });
   }
 
-  public findById(id: number): Promise<Category | null> {
+  public findById(categoryId: number): Promise<Category | null> {
     return this.prisma.category.findFirst({
       where: {
-        id
+        categoryId
       }
     });
   }
@@ -33,19 +33,19 @@ export class TaskCategoryRepository implements CRUDRepository<TaskCategoryEntity
   public find(ids: number[] = []): Promise<Category[]> {
     return this.prisma.category.findMany({
       where: {
-        id: {
+        categoryId: {
           in: ids.length > 0 ? ids : undefined
         }
       }
     });
   }
 
-  public update(id: number, item: TaskCategoryEntity): Promise<Category> {
+  public update(categoryId: number, item: TaskCategoryEntity): Promise<Category> {
     return this.prisma.category.update({
       where: {
-        id
+        categoryId
       },
-      data: { ...item.toObject(), id}
+      data: { ...item.toObject(), categoryId}
     });
   }
 }

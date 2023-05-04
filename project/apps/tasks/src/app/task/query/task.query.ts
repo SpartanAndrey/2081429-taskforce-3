@@ -1,4 +1,4 @@
-import { City, TaskStatus, SortType } from '@project/shared/app-types';
+import { City, TaskStatus, SortType, Category } from '@project/shared/app-types';
 import { IsIn, IsNumber, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { DEFAULT_TASK_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, DEFAULT_SORT_TYPE } from '../task.constant';
@@ -7,21 +7,21 @@ export class TaskQuery {
   @Transform(({ value } ) => +value || DEFAULT_TASK_COUNT_LIMIT)
   @IsNumber()
   @IsOptional()
-  public limit: number;
+  public limit?: number;
 
   @IsIn(['asc', 'desc'])
   @IsOptional()
-  public sortDirection: 'desc' | 'asc' = DEFAULT_SORT_DIRECTION;
+  public sortDirection?: 'desc' | 'asc' = DEFAULT_SORT_DIRECTION;
 
   @IsOptional()
   public sortType?: SortType = DEFAULT_SORT_TYPE;
 
   @Transform(({ value }) => +value)
   @IsOptional()
-  public page: number;
+  public page?: number;
 
   @IsOptional()
-  public categoryId?: number;
+  public categoryId: number;
 
   @IsOptional()
   public city?: City;
@@ -30,7 +30,7 @@ export class TaskQuery {
   public status?: TaskStatus;
 
   @IsOptional()
-  public tag: string;
+  public tag?: string;
 
   @IsOptional()
   public userId?: string;

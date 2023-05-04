@@ -14,7 +14,7 @@ export class TaskService {
 
   async createTask(dto: CreateTaskDto) {
 
-    const taskDto = {...dto, userId: '', categoryId: 1, createdAt: dayjs('2023-03-26').toDate(), status: TaskStatus.New};
+    const taskDto = {...dto, createdAt: dayjs('2023-03-26').toDate(), status: TaskStatus.New};
     const taskEntity = new TaskEntity(taskDto);
     return this.taskRepository.create(taskEntity);
   }
@@ -29,5 +29,9 @@ export class TaskService {
 
   async getTasks(query: TaskQuery) {
     return this.taskRepository.find(query);
+  }
+
+  async getNewTasks(userId: string, query: TaskQuery) {
+    return this.taskRepository.find({ ...query, userId: userId, status: TaskStatus.New });
   }
 }

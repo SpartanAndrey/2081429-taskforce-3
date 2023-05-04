@@ -7,11 +7,12 @@ export class TaskCategoryRdo {
     example: 100
   })
   @Expose()
-  public id: number;
+  public categoryId: number;
 
   @ApiProperty({
     description: 'Уникальное название категории.',
     example: 'Распил'
   })
+  @Expose()
   public title: string;
 }

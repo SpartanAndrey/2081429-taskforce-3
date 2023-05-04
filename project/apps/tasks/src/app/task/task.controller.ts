@@ -30,6 +30,12 @@ export class TaskController {
     return fillObject(TaskRdo, tasks);
   }
 
+  @Get('/:userId/new')
+  async getNew(@Param('userId') userId: string, @Query() query: TaskQuery) {
+    const tasks = await this.taskService.getNewTasks(userId, query);
+    return fillObject(TaskRdo, tasks);
+  }
+
   @ApiResponse({
     type: TaskRdo,
     status: HttpStatus.CREATED,
