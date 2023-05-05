@@ -38,9 +38,13 @@ export class UsersController {
     description: 'User found.'
   })
   @Get(':id')
-  public async show(@Param('id') id: string) {
+  public async show(@Req() req: Request, @Param('id') id: string) {
     
-    const user: UserRdo = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/${id}`);
+    const user: UserRdo = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}/${id}`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
 
     if (user.role === UserRole.Customer) {
       const tasksCount = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/customer/${id}`);
