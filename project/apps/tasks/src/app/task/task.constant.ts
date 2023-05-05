@@ -27,3 +27,6 @@ export const TASK_DUEDATE_NOT_VALID = 'The due date is not valid.';
 
 export const TASK_FORBIDDEN = 'Access is denied.';
 export const TASK_STATUS_CONDITIONS_WRONG = 'Update status conditions are wrong.';
+export const TASK_NOT_FOUND = `Task is not found.`;
+export const TASK_CANT_TAKE = `You're not contractor.`;
+export const TASK_CONTRACTOR_APPOINTED = `The contractor has been already appointed.`;
