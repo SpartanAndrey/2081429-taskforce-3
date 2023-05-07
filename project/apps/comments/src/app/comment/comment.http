@@ -20,7 +20,7 @@ GET {{baseUrl}}/comments/{{commentId}} HTTP/1.1
 ###
 
 # Get comments
-GET {{baseUrl}}/comments?sortDirection=desc&limit=2&page=1&taskId=1 HTTP/1.1
+GET {{baseUrl}}/comments/1/?sortDirection=desc&limit=2&page=1 HTTP/1.1
 
 ###
 

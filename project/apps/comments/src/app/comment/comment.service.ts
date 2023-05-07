@@ -23,8 +23,8 @@ export class CommentService {1
     return this.commentRepository.findById(id);
   }
 
-  async getComments(query: CommentQuery) {
-    return this.commentRepository.find(query);
+  async getComments(taskId: number, query: CommentQuery) {
+    return this.commentRepository.find(taskId, query);
   }
 
   public async delete(id: number) {

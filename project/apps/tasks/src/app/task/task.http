@@ -27,7 +27,7 @@ GET {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
 ###
 
 # Update task status by ID
-POST {{baseUrl}}/tasks/{{taskId}}/status HTTP/1.1
+PATCH {{baseUrl}}/tasks/{{taskId}}/status HTTP/1.1
 Content-Type: application/json
 
 {
@@ -38,7 +38,7 @@ Content-Type: application/json
 ###
 
 # Add response to task by ID
-POST {{baseUrl}}/tasks/{{taskId}}/response HTTP/1.1
+PATCH {{baseUrl}}/tasks/{{taskId}}/response HTTP/1.1
 Content-Type: application/json
 
 {
@@ -49,7 +49,7 @@ Content-Type: application/json
 ###
 
 # Add contractor to task by ID
-POST {{baseUrl}}/tasks/{{taskId}}/contractor HTTP/1.1
+PATCH {{baseUrl}}/tasks/{{taskId}}/contractor HTTP/1.1
 Content-Type: application/json
 
 {

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { UpdateTaskDto } from './dto/update-task-status.dto';
 import { UpdateTaskResponseDto } from './dto/update-task-response.dto';
 import { TaskStatus, UserRole } from '@project/shared/app-types';
 import { TaskRepository } from './task.repository';
