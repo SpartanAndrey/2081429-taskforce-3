@@ -50,7 +50,7 @@ export class ReviewController {
     status: HttpStatus.OK,
     description: 'The reviews found.'
   })
-  @Get('/:contractorId')
+  @Get('/:contractorId/data')
   async indexExecutorReviews(@Param('contractorId') contractorId: string) {
     const reviews = await this.reviewService.getByContractorId(contractorId);
     return fillObject(ReviewRdo, reviews);

@@ -27,7 +27,7 @@ export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Re
     });
   }
 
-  public findByContractorId(contractorId:string): Promise<Review[]> {
+  public findByContractorId(contractorId: string): Promise<Review[]> {
     return this.prisma.review.findMany({
       where: {
         contractorId: contractorId,
