@@ -12,7 +12,7 @@ export class CommentService {1
   ) {}
   
   public async create(dto: CreateCommentDto) {
-    const comment = {...dto, userId: '', createdAt: dayjs('2023-03-26').toDate()};
+    const comment = {...dto, createdAt: dayjs().toDate()};
 
     const commentEntity = await new CommentEntity(comment);
 

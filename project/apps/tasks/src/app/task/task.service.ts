@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task-status.dto';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { UpdateTaskResponseDto } from './dto/update-task-response.dto';
-import { TaskStatus, UserRole } from '@project/shared/app-types';
+import { SortType, TaskStatus, UserRole } from '@project/shared/app-types';
 import { TaskRepository } from './task.repository';
 import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { TaskEntity } from './task.entity';
@@ -17,7 +17,7 @@ export class TaskService {
 
   async createTask(dto: CreateTaskDto) {
 
-    const taskDto = {...dto, createdAt: dayjs('2023-03-26').toDate(), status: TaskStatus.New};
+    const taskDto = {...dto, createdAt: dayjs().toDate(), status: TaskStatus.New};
     const taskEntity = new TaskEntity(taskDto);
     return this.taskRepository.create(taskEntity);
   }
@@ -38,15 +38,23 @@ export class TaskService {
     return this.taskRepository.find({ ...query, userId: userId, status: TaskStatus.New });
   }
 
+  async getCustomerTasks(userId: string, query: TaskQuery) {
+    return this.taskRepository.find({ ...query, userId: userId, sortType: SortType.CreatedAt });
+  }
+
   async getCustomerTasksNumber(userId: string, query: TaskQuery) {
     return this.taskRepository.countCustomerTasks({ ...query, userId: userId });
+  }
+
+  async getContractorTasks(userId: string, query: TaskQuery) {
+    return this.taskRepository.find({ ...query, contractorId: userId, sortType: SortType.Status });
   }
 
   async getContratorTasksNumber(contractorId: string, query: TaskQuery) {
     return this.taskRepository.countContractorTasks({ ...query, contractorId: contractorId });
   }
 
-  async updateTaskStatus(id: number, dto: UpdateTaskDto) {
+  async updateTaskStatus(id: number, dto: UpdateTaskStatusDto) {
 
     const task =  await this.taskRepository.findById(id);
 

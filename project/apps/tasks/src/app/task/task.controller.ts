@@ -77,18 +77,30 @@ export class TaskController {
   }
 
   @Get('/:userId/new')
-  async getCustomerTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
+  async getCustomerNewTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
     const tasks = await this.taskService.getNewTasks(userId, query);
     return fillObject(TaskRdo, tasks);
   }
 
-  @Get('/customer/:userId')
+  @Get('/customer/:userId/my')
+  async getCustomerTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
+    const tasks = await this.taskService.getCustomerTasks(userId, query);
+    return fillObject(TaskRdo, tasks);
+  }
+
+  @Get('/customer/:userId/count')
   async getCustomerTasksCount(@Param('userId') userId: string, @Query() query: TaskQuery) {
     const tasks = await this.taskService.getCustomerTasksNumber(userId, query);
     return fillObject(TaskRdo, tasks);
   }
 
-  @Get('/contractor/:contractorId')
+  @Get('/contractor/:contractorId/my')
+  async getContractorTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
+    const tasks = await this.taskService.getContractorTasks(userId, query);
+    return fillObject(TaskRdo, tasks);
+  }
+
+  @Get('/contractor/:contractorId/count')
   async getContractorTasksCount(@Param('contractorId') contractorId: string, @Query() query: TaskQuery) {
     const tasks = await this.taskService.getCustomerTasksNumber(contractorId, query);
     return fillObject(TaskRdo, tasks);

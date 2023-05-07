@@ -11,7 +11,7 @@ export class ReviewService {
   ) {}
   
   public async create(dto: CreateReviewDto) {
-    const review = {...dto, userId: '', createdAt: dayjs('2023-03-26').toDate()};
+    const review = {...dto, createdAt: dayjs().toDate()};
 
     const reviewEntity = await new ReviewEntity(review);
 

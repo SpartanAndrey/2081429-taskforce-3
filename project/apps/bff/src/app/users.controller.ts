@@ -55,14 +55,14 @@ export class UsersController {
     });
 
     if (data.role === UserRole.Customer) {
-      const tasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/customer/${id}`)).data;
-      const newTasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/customer/${id}?status=New`)).data;
+      const tasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/customer/${id}/count`)).data;
+      const newTasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/customer/${id}/count?status=New`)).data;
 
       return {...data, publishedTasksCount: tasksNumber, newTasksCount: newTasksNumber};
   
     } else if (data.role === UserRole.Contractor) {
-      const completedTasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/contractor/${id}?status=Completed`)).data;
-      const failedTasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/contractor/${id}?status=Failed`)).data;
+      const completedTasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/contractor/${id}/count?status=Completed`)).data;
+      const failedTasksNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/contractor/${id}/count?status=Failed`)).data;
 
       const reviewsNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Reviews}/${id}/data`)).data.length;
       const reviewsSum = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Reviews}/${id}/sum`)).data;

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Req, UseFilters, HttpStatus, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, UseFilters, HttpStatus, Param, Patch, Query, Delete } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationServiceURL } from './app.config';
 import { Request } from 'express';
@@ -74,4 +74,9 @@ export class TasksController {
 
     return data;
     }
+
+  @Delete('/:id')
+  async destroy(@Param('id') id: number) {
+    await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Tasks}/${id}`);
+  }
 }
