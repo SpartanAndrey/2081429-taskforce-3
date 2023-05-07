@@ -11,7 +11,7 @@ export class ReviewService {
   ) {}
   
   public async create(dto: CreateReviewDto) {
-    const review = {...dto, userId: '', createdAt: dayjs('2023-03-26').toDate()};
+    const review = {...dto, createdAt: dayjs().toDate()};
 
     const reviewEntity = await new ReviewEntity(review);
 
@@ -26,11 +26,15 @@ export class ReviewService {
     return this.reviewRepository.findByContractorId(contractorId);
   }
 
+  async getRatingSum(contractorId: string) {
+    return this.reviewRepository.getContractorRatingSum(contractorId);
+  }
+
   public async delete(id: number) {
     return this.reviewRepository.destroy(id);
   }
 
-  async deletByContractorId(contractorId: string) {
+  async deleteByContractorId(contractorId: string) {
     return this.reviewRepository.destroyByContractorId(contractorId);
   }
 

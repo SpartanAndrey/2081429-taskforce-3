@@ -23,7 +23,8 @@ async function fillDb() {
           tags: ["косарь", "пенёк"],
           city: 'Moscow',
           userId: '',
-          status: 'New',
+          contractorId: '',
+          status: 'Completed',
           responses: ['']
         },
     });

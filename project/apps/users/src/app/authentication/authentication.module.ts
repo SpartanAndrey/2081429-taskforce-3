@@ -6,7 +6,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { getJwtOptions } from '@project/config/config-users';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 import { NotifyModule } from '../notify/notify.module';
+import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -16,11 +19,14 @@ import { NotifyModule } from '../notify/notify.module';
       useFactory: getJwtOptions
     }),
     NotifyModule,
+    RefreshTokenModule,
   ],
   controllers: [AuthenticationController],
   providers: [
     AuthenticationService,
     JwtAccessStrategy,
+    LocalStrategy,
+    JwtRefreshStrategy
   ],
 })
 export class AuthenticationModule {}

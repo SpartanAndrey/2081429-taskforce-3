@@ -36,9 +36,9 @@ export class CommentController {
     return fillObject(CommentRdo, existComment);
   }
 
-  @Get('/')
-  async index(@Query() query: CommentQuery) {
-    const comments = await this.commentService.getComments(query);
+  @Get('/task/:taskId')
+  async index(@Param('taskId') taskId: number, @Query() query: CommentQuery) {
+    const comments = await this.commentService.getComments(taskId, query);
     return fillObject(CommentRdo, comments);
   }
 

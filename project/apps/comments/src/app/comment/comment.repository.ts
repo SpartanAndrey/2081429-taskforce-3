@@ -28,7 +28,7 @@ export class CommentRepository implements CRUDRepository<CommentEntity, number, 
     });
   }
 
-  public find({taskId, limit, sortDirection, page}: CommentQuery): Promise<Comment[]> {
+  public find(taskId: number, {limit, sortDirection, page}: CommentQuery): Promise<Comment[]> {
     return this.prisma.comment.findMany({
       where: {
         taskId: taskId,

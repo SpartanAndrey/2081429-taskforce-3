@@ -27,12 +27,24 @@ export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Re
     });
   }
 
-  public findByContractorId(contractorId:string): Promise<Review[]> {
+  public findByContractorId(contractorId: string): Promise<Review[]> {
     return this.prisma.review.findMany({
       where: {
         contractorId: contractorId,
       },
     });
+  }
+
+  public async getContractorRatingSum (contractorId: string): Promise<number> {
+    const ratingSum = await this.prisma.review.aggregate({
+      _sum: {
+        rating: true,
+      },
+      where: {
+        contractorId: contractorId,
+        },
+    });
+    return ratingSum._sum.rating;
   }
 
   public async destroy(id: number): Promise<void> {

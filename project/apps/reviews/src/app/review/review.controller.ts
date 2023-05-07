@@ -50,10 +50,20 @@ export class ReviewController {
     status: HttpStatus.OK,
     description: 'The reviews found.'
   })
-  @Get('/:contractorId')
-  async indexExecutorEvaluations(@Param('contractorId') contractorId: string) {
+  @Get('/:contractorId/data')
+  async indexExecutorReviews(@Param('contractorId') contractorId: string) {
     const reviews = await this.reviewService.getByContractorId(contractorId);
     return fillObject(ReviewRdo, reviews);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @Get('/:contractorId/sum') 
+  public async getRatingSum(@Param('contractorId') contractorId: string) {
+    const ratingSum = await this.reviewService.getRatingSum(contractorId);
+
+    return ratingSum;
   }
 
 }

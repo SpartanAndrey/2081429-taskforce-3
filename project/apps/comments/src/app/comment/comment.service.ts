@@ -12,7 +12,7 @@ export class CommentService {1
   ) {}
   
   public async create(dto: CreateCommentDto) {
-    const comment = {...dto, userId: '', createdAt: dayjs('2023-03-26').toDate()};
+    const comment = {...dto, createdAt: dayjs().toDate()};
 
     const commentEntity = await new CommentEntity(comment);
 
@@ -23,8 +23,8 @@ export class CommentService {1
     return this.commentRepository.findById(id);
   }
 
-  async getComments(query: CommentQuery) {
-    return this.commentRepository.find(query);
+  async getComments(taskId: number, query: CommentQuery) {
+    return this.commentRepository.find(taskId, query);
   }
 
   public async delete(id: number) {

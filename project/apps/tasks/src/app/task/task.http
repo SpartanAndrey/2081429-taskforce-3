@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:3100/api
 
 @taskId = {{task.response.body.$.id}}
+@userId = {{task.response.body.$.userId}}
 
 #Create task
 # @name task
@@ -10,10 +11,12 @@ Content-Type: application/json
 {
   "title": "Дверь мне запили. Срочно",
   "description": "Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.",
+  "categoryId": 1,
   "price": 1000,
   "address": "переулок Дверной запил, 21",
   "city": "Moscow",
-  "tags": ["дверь", "запилить"]
+  "tags": ["дверь", "запилить"],
+  "userId": "A123"
 }
 
 ###
@@ -23,8 +26,56 @@ GET {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
 
 ###
 
+# Update task status by ID
+PATCH {{baseUrl}}/tasks/{{taskId}}/status HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId": "A123",
+  "status": "Canceled"
+}
+
+###
+
+# Add response to task by ID
+PATCH {{baseUrl}}/tasks/{{taskId}}/response HTTP/1.1
+Content-Type: application/json
+
+{
+  "role": "Contractor",
+  "userId": "B111"
+}
+
+###
+
+# Add contractor to task by ID
+PATCH {{baseUrl}}/tasks/{{taskId}}/contractor HTTP/1.1
+Content-Type: application/json
+
+{
+  "role": "Contractor",
+  "userId": "B111"
+}
+
+###
+
 # Get tasks
 GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1 HTTP/1.1
+
+###
+
+# Get customer tasks count
+GET {{baseUrl}}/tasks/customer/{{userId}} HTTP/1.1
+
+###
+
+# Get contractor tasks count
+GET {{baseUrl}}/tasks/contractor/{{userId}}?status=Completed HTTP/1.1
+
+###
+
+# Get customer tasks //можно список моих заданий запрашивать таким образом?
+GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1&userId={{userId}} HTTP/1.1
 
 ###
 

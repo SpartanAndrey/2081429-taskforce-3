@@ -1,8 +1,10 @@
 @baseUrl = http://localhost:3000/api
 @accessToken = {{login.response.body.$.accessToken}}
-@userId = {{login.response.body.$.id}}
+@refreshToken = {{login.response.body.$.refreshToken}}
+@userId = {{newUser.response.body.$.id}}
 
 # Create a new user
+# @name newUser
 POST {{baseUrl}}/auth/register HTTP/1.1
 Content-Type: application/json
 
@@ -11,7 +13,7 @@ Content-Type: application/json
   "email": "sparta@gmail.com",
   "city": "Moscow",
   "password": "123456",
-  "role": "Customer",
+  "role": "Contractor",
   "dateBirth": "2022-02-22"
 }
 
@@ -32,5 +34,34 @@ Content-Type: application/json
 # Get user by ID
 GET {{baseUrl}}/auth/{{userId}} HTTP/1.1
 Authorization: Bearer {{accessToken}}
+
+###
+
+# Get new JWT pair
+POST {{baseUrl}}/auth/refresh HTTP/1.1
+Authorization: Bearer {{refreshToken}}
+
+###
+
+# Update password
+PATCH {{baseUrl}}/auth/{{userId}}/password HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "password": "123456",
+  "newPassword": "098765"
+}
+
+###
+
+# Update user data
+PATCH {{baseUrl}}/auth/{{userId}} HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "fullName": "Dinam Dinamych"
+}
 
 ###

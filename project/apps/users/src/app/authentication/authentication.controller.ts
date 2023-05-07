@@ -1,15 +1,21 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards, Patch} from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { fillObject } from '@project/util/util-core';
 import { UserRdo } from './rdo/user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
-import { LoginUserDto } from './dto/login-user.dto';
+import { CustomerUserRdo } from './rdo/customer-user.rdo';
+import { ContractorUserRdo } from './rdo/contractor-user.rdo';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MongoidValidationPipe } from '@project/shared/shared-pipes';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyService } from '../notify/notify.service';
-
+import { LocalAuthGuard } from './guards/local-auth-guard';
+import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+import { RequestWithUser } from '@project/shared/app-types';
+import { UserRole } from '@project/shared/app-types';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -31,11 +37,17 @@ export class AuthenticationController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto);
-    const { email, fullName } = newUser;
+    const { email, fullName, role } = newUser;
     await this.notifyService.registerSubscriber({ email, fullName })
-    return fillObject(UserRdo, newUser);
+    
+    if (role === UserRole.Customer) {
+      return fillObject(CustomerUserRdo, newUser);
+    } else if (role === UserRole.Contractor) {
+      return fillObject(ContractorUserRdo, newUser);
+    }
   }
 
+  @UseGuards(LocalAuthGuard)
   @ApiResponse({
     type: LoggedUserRdo,
     status: HttpStatus.OK,
@@ -47,11 +59,8 @@ export class AuthenticationController {
   })
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  public async login(@Body() dto: LoginUserDto) {
-    const verifiedUser = await this.authService.verifyUser(dto);
-    const loggedUser = await this.authService.createUserToken(verifiedUser);
-
-    return fillObject(LoggedUserRdo, Object.assign(verifiedUser, loggedUser));
+  public async login(@Req() { user }: RequestWithUser) {
+    return this.authService.createUserToken(user);
   }
 
   @ApiResponse({
@@ -63,7 +72,52 @@ export class AuthenticationController {
   @Get(':id')
   public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
+
+    if (existUser.role === UserRole.Customer) {
+      return fillObject(CustomerUserRdo, existUser);
+    } else if (existUser.role === UserRole.Contractor) {
+      return fillObject(ContractorUserRdo, existUser);
+    }
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get a new access/refresh tokens'
+  })
+  public async refreshToken(@Req() { user }: RequestWithUser) {
+    return this.authService.createUserToken(user);
+  }
+
+  
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id/password')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password has been successfully updated.'
+  })
+  async updatePassword(@Param('id', MongoidValidationPipe) id: string, @Body() dto: UpdatePasswordDto) {
+    return await this.authService.updatePassword(id, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User has been successfully updated.'
+  })
+  async update(@Param('id', MongoidValidationPipe) id: string, @Body() dto: UpdateUserDto) { //специализация есть только у исполнителей, надо какую-то проверку
     
-    return fillObject(UserRdo, existUser);
+    const updatedUser = await this.authService.update(id, dto);
+    
+    if (updatedUser.role === UserRole.Customer) {
+      return fillObject(CustomerUserRdo, updatedUser);
+    } else if (updatedUser.role === UserRole.Contractor) {
+      return fillObject(ContractorUserRdo, updatedUser);
+    }
   }
 }

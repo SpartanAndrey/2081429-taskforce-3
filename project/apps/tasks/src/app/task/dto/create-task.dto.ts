@@ -1,6 +1,7 @@
 import { City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString, Length, IsPositive, IsOptional, ArrayMaxSize } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { TASK_TITLE_LENGTH, TASK_DESCRIPTION_LENGTH, TASK_ADDRESS_LENGTH, TASK_DUEDATE_NOT_VALID, minTitleLength, maxTitleLength, 
   minDescriptionLength, maxDescriptionLength, minAddressLength, maxAddressLength, minTagLength, maxTagLength, TASK_TAG_LENGTH, taskTagNumber, TASK_TAGS_NUMBER } from '../task.constant';
 
@@ -24,9 +25,10 @@ export class CreateTaskDto {
   public description: string;
 
   @ApiProperty({
-    description: 'Уникальный идентификатор одной из существующих категорий.',
-    example: '3452347234'
+    description: 'Уникальный идентификатор катгории задания.',
+    example: 100
   })
+  @Transform(({value}) => +value)
   public categoryId: number;
 
   @ApiProperty({
@@ -75,4 +77,10 @@ export class CreateTaskDto {
     example: 'Москва'
   })
   public city: City;
+
+  @ApiProperty({
+    description: 'Уникальный идентификатор пользователя.',
+    example: 'd913b9e8-9ff5-4528-8fc6-4d0ffd1e0ad3'
+    })
+    public userId: string;
 }

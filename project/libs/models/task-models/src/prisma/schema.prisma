@@ -15,7 +15,7 @@ model Task {
   taskId         Int        @id @default(autoincrement()) @map("task_id")
   title          String     @default("")
   description    String     @default("")
-  category       Category   @relation(fields: [categoryId], references: [id])
+  category       Category   @relation(fields: [categoryId], references: [categoryId])
   categoryId     Int        @map("category_id")
   price          Int?       @default(0)
   dueDate        DateTime?
@@ -24,6 +24,7 @@ model Task {
   tags           String[]
   city           City
   userId         String?  @map("user_id")
+  contractorId   String?  @map("contractor_id")
   createdAt      DateTime   @default(now()) @map("created_at")
   updatedAt      DateTime   @updatedAt  @map("publish_at")
   status         TaskStatus
@@ -35,7 +36,7 @@ model Task {
 }
 
 model Category {
-  id             Int        @id @default(autoincrement()) @map("_id")
+  categoryId     Int        @id @default(autoincrement()) @map("category_id")
   title          String     @unique
   tasks          Task[]
 

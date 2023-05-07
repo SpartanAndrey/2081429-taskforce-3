@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { TaskStatus } from '@project/shared/app-types';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+import { UpdateTaskResponseDto } from './dto/update-task-response.dto';
+import { SortType, TaskStatus, UserRole } from '@project/shared/app-types';
 import { TaskRepository } from './task.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { TaskEntity } from './task.entity';
 import { TaskQuery } from './query/task.query';
+import { TASK_STATUS_CONDITIONS_WRONG, TASK_FORBIDDEN, TASK_NOT_FOUND, TASK_CANT_TAKE, TASK_CONTRACTOR_APPOINTED } from './task.constant';
 
 @Injectable()
 export class TaskService {
@@ -14,7 +17,7 @@ export class TaskService {
 
   async createTask(dto: CreateTaskDto) {
 
-    const taskDto = {...dto, userId: '', categoryId: 1, createdAt: dayjs('2023-03-26').toDate(), status: TaskStatus.New};
+    const taskDto = {...dto, createdAt: dayjs().toDate(), status: TaskStatus.New};
     const taskEntity = new TaskEntity(taskDto);
     return this.taskRepository.create(taskEntity);
   }
@@ -29,5 +32,87 @@ export class TaskService {
 
   async getTasks(query: TaskQuery) {
     return this.taskRepository.find(query);
+  }
+
+  async getNewTasks(userId: string, query: TaskQuery) {
+    return this.taskRepository.find({ ...query, userId: userId, status: TaskStatus.New });
+  }
+
+  async getCustomerTasks(userId: string, query: TaskQuery) {
+    return this.taskRepository.find({ ...query, userId: userId, sortType: SortType.CreatedAt });
+  }
+
+  async getCustomerTasksNumber(userId: string, query: TaskQuery) {
+    return this.taskRepository.countCustomerTasks({ ...query, userId: userId });
+  }
+
+  async getContractorTasks(userId: string, query: TaskQuery) {
+    return this.taskRepository.find({ ...query, contractorId: userId, sortType: SortType.Status });
+  }
+
+  async getContratorTasksNumber(contractorId: string, query: TaskQuery) {
+    return this.taskRepository.countContractorTasks({ ...query, contractorId: contractorId });
+  }
+
+  async updateTaskStatus(id: number, dto: UpdateTaskStatusDto) {
+
+    const task =  await this.taskRepository.findById(id);
+
+    if (!task) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
+
+    if (dto.userId !== task.userId && dto.userId !== task.contractorId) {
+      throw new ForbiddenException(TASK_FORBIDDEN);
+    }
+   
+    if (task.status === TaskStatus.New && task.userId === dto.userId) {
+      return this.taskRepository.updateStatus(id, dto.status);
+    } else if (task.status === TaskStatus.New && task.contractorId) {
+      return this.taskRepository.updateStatus(id, dto.status);
+    } else if (task.status === TaskStatus.InWork && task.userId === dto.userId)
+    {
+      return this.taskRepository.updateStatus(id, dto.status);
+    } else if (task.status === TaskStatus.InWork && task.contractorId === dto.userId) {
+      return this.taskRepository.updateStatus(id, dto.status);
+    } else {
+      throw new BadRequestException(TASK_STATUS_CONDITIONS_WRONG);
+    }
+  }
+
+  public async addContractor(id: number, dto: UpdateTaskResponseDto) {
+    const {role, userId} = dto;
+    
+    if (role !== UserRole.Contractor) {
+      throw new ForbiddenException(TASK_CANT_TAKE);
+    }
+
+    const task = await this.taskRepository.findById(id);
+
+    if (!task) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
+
+    if (task.contractorId !== null) {
+      throw new ForbiddenException(TASK_CONTRACTOR_APPOINTED);
+    }
+
+    return this.taskRepository.addContractor(id, userId);
+  }
+
+  public async addResponse(id: number, dto: UpdateTaskResponseDto) {
+    const {role, userId} = dto;
+
+    if (role !== UserRole.Contractor) {
+      throw new ForbiddenException(TASK_CANT_TAKE);
+    }
+
+    const task = await this.taskRepository.findById(id);
+
+    if (!task) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
+
+    return await this.taskRepository.addResponse(id, userId);
   }
 }

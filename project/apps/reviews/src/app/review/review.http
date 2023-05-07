@@ -9,9 +9,10 @@ POST {{baseUrl}}/reviews/create HTTP/1.1
 Content-Type: application/json
 
 {
-  "review": "Нраица, очень нраица.",
-  "taskId": "2",
-  "contractorId": "asd-123",
+  "review": "Нраица, очень нраица. Рататаратараатататататататттаататататтававамываыаыавмыамывамвамывамывамывамывамывамывам",
+  "taskId": 1,
+  "contractorId": "6455dc009a24b824b6976f84",
+  "userId": "6455dc009a24b824b6976f90",
   "rating": 5
 }
 
@@ -22,13 +23,13 @@ GET {{baseUrl}}/reviews/{{reviewId}} HTTP/1.1
 
 ###
 
-# Get review by ID
-GET {{baseUrl}}/reviews/{{reviewId}} HTTP/1.1
+# Get reviews by contractor ID
+GET {{baseUrl}}/reviews/{{contractorId}}/data HTTP/1.1
 
 ###
 
-# Get reviews by contractor ID
-GET {{baseUrl}}/reviews/{{contractorId}} HTTP/1.1
+# Get rating sum by contractor ID
+GET {{baseUrl}}/reviews/{{contractorId}}/sum HTTP/1.1
 
 ###
 
