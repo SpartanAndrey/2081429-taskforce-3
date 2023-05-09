@@ -6,7 +6,7 @@ import { CommentRepository } from './comment.repository';
 import { CommentQuery } from './query/comment.query';
 
 @Injectable()
-export class CommentService {1
+export class CommentService {
   constructor(
     private readonly commentRepository: CommentRepository
   ) {}
@@ -23,8 +23,12 @@ export class CommentService {1
     return this.commentRepository.findById(id);
   }
 
-  async getComments(taskId: number, query: CommentQuery) {
-    return this.commentRepository.find(taskId, query);
+  async getComments(query: CommentQuery, taskId?: number) {
+    return this.commentRepository.find(query, taskId);
+  }
+
+  async getCommentsByIds(ids: number[]) {
+    return this.commentRepository.findByIds(ids);
   }
 
   public async delete(id: number) {

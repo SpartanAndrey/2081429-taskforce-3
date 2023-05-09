@@ -113,12 +113,19 @@ export class TaskRdo {
     example: ''
   })
   @Expose()
-  public responses: number;
+  public responsesCount: number;
+
+  @ApiProperty({
+    description: 'Массив отликов испонителей.',
+    example: ['F123', 'D123']
+  })
+  @Expose()
+  public responses: string[];
 
   @ApiProperty({
     description: 'Количество комментариев пользователей.',
     example: ''
   })
   @Expose()
-  public comments: number;
+  public commentsCount: number;
 }

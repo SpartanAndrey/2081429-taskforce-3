@@ -1,20 +1,25 @@
-export const minUserLength = 3;
-export const maxUserLength = 50;
+export const MAX_USER_SPECIALIZATION_NUMBER = 5;
 
-export const minPasswordLength = 6;
-export const maxPasswordLength = 12;
+export const enum UserFieldLength {
+  MinUser = 3,
+  MaxUser = 50,
+  MinPassword = 6,
+  MaxPassword = 12,
+  MaxUserInfo = 300,
+}
 
-export const maxUserInfoLength = 300;
+export const enum UserValidation {
+  AuthUserEmailNotValid = 'The email is not valid.',
+  AuthUserDateBirthNotValid = 'The user date birth is not valid.',
+  AuthUserNameLength = `User name length shall be between ${UserFieldLength.MinUser} and ${UserFieldLength.MaxUser} chars.`,
+  AuthUserPasswordLength = `User password length shall be between ${UserFieldLength.MinPassword} and ${UserFieldLength.MaxPassword} chars.`,
+  AuthUserInfoLength = `User info length shall no more than ${UserFieldLength.MaxUserInfo} chars.`,
+  AuthUserMaxSpecializationNumber = `User specialization number shall no more than ${MAX_USER_SPECIALIZATION_NUMBER}.`
+}
 
-export const maxUserSpecializationNumber = 5;
-
-export const AUTH_USER_FORBIDDEN = 'Access is denied.';
-export const AUTH_USER_EXISTS = 'User with this email exists.';
-export const AUTH_USER_NOT_FOUND = 'User not found.';
-export const AUTH_USER_PASSWORD_WRONG = 'User password is wrong.';
-export const AUTH_USER_EMAIL_NOT_VALID = 'The email is not valid.';
-export const AUTH_USER_DATE_BIRTH_NOT_VALID = 'The user date birth is not valid.';
-export const AUTH_USER_NAME_LENGTH = `User name length shall be between ${minUserLength} and ${maxUserLength} chars.`;
-export const AUTH_USER_PASSWORD_LENGTH = `User password length shall be between ${minPasswordLength} and ${maxPasswordLength} chars.`;
-export const AUTH_USER_INFO_LENGTH = `User info length shall no more than ${maxUserInfoLength} chars.`;
-export const AUTH_USER_SPECIALIZATION_NUMBER = `User specialization number shall no more than ${maxUserSpecializationNumber}.`;
+export const enum UserException {
+  AuthUserForbidden = 'Access is denied.',
+  AuthUserExist = 'User with this email exists.',
+  AuthUserNotFound = 'User not found.',
+  AuthUserPasswordWrong = 'User password is wrong.'
+}

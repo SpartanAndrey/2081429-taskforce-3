@@ -23,6 +23,11 @@ GET {{baseUrl}}/reviews/{{reviewId}} HTTP/1.1
 
 ###
 
+# Get review by task ID
+GET {{baseUrl}}/reviews/task/1 HTTP/1.1
+
+###
+
 # Get reviews by contractor ID
 GET {{baseUrl}}/reviews/{{contractorId}}/data HTTP/1.1
 

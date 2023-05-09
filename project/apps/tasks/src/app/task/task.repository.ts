@@ -13,7 +13,7 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
 
   public async create(item: TaskEntity): Promise<Task> {
     const entityData = item.toObject();
-    console.log(entityData)
+    
     return this.prisma.task.create({
       data: {
         ...entityData,

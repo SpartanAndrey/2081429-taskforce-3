@@ -2,15 +2,14 @@ import { City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString, Length, MaxLength, IsArray, ArrayMaxSize, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { AUTH_USER_DATE_BIRTH_NOT_VALID, AUTH_USER_NAME_LENGTH, AUTH_USER_INFO_LENGTH, AUTH_USER_SPECIALIZATION_NUMBER,
-  minUserLength, maxUserLength, maxUserInfoLength, maxUserSpecializationNumber } from '../users.constant';
+import { MAX_USER_SPECIALIZATION_NUMBER, UserFieldLength, UserValidation } from '../bff.constant';
 
 export class UpdateUserDto {
   @ApiProperty({
     description: 'Фамилия и имя пользователя. Минимальная длина поля: 3 символа, максимальная 50 символов.',
     example: 'Ivan Ivanov',
   })
-  @Length(minUserLength, maxUserLength, { message: AUTH_USER_NAME_LENGTH })
+  @Length(UserFieldLength.MinUser, UserFieldLength.MaxUser, { message: UserValidation.AuthUserNameLength })
   @IsString()
   @IsOptional()
   public fullName?: string;
@@ -19,7 +18,7 @@ export class UpdateUserDto {
     description: 'Дата рождения пользователя в формате: YYYY-MM-DD. Ограничения: валидная дата, пользователь достиг совершеннолетия (18 лет).',
     example: '2022-02-22',
   })
-  @IsISO8601({}, { message: AUTH_USER_DATE_BIRTH_NOT_VALID })
+  @IsISO8601({}, { message: UserValidation.AuthUserDateBirthNotValid })
   @IsOptional()
   public dateBirth?: Date;
 
@@ -27,7 +26,7 @@ export class UpdateUserDto {
     description: 'Информация о себе. Максимальная длина: 300 символов',
     example: 'Ну я такой ничё работник.',
   })
-  @MaxLength(maxUserInfoLength, { message: AUTH_USER_INFO_LENGTH })
+  @MaxLength(UserFieldLength.MaxUserInfo, { message: UserValidation.AuthUserInfoLength })
   @IsString()
   @IsOptional()
   public personalInfo?: string;
@@ -37,7 +36,7 @@ export class UpdateUserDto {
     example: 'Москва'
   })
   @IsArray()
-  @ArrayMaxSize(maxUserSpecializationNumber, { message: AUTH_USER_SPECIALIZATION_NUMBER})
+  @ArrayMaxSize(MAX_USER_SPECIALIZATION_NUMBER, { message: UserValidation.AuthUserMaxSpecializationNumber})
   @Transform(({ value }) => new Set(value.map(item => item.toLowerCase())))
   @IsOptional()
   public specializations?: string[];

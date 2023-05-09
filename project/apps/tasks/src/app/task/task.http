@@ -74,12 +74,12 @@ GET {{baseUrl}}/tasks/contractor/{{userId}}?status=Completed HTTP/1.1
 
 ###
 
-# Get customer tasks //можно список моих заданий запрашивать таким образом?
+# Get customer tasks
 GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1&userId={{userId}} HTTP/1.1
 
 ###
 
 # Delete Task by ID
-DELETE {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
+DELETE {{baseUrl}}/tasks/4 HTTP/1.1
 
 ###

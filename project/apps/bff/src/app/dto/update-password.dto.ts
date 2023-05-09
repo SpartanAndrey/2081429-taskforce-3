@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length } from 'class-validator';
-import { AUTH_USER_PASSWORD_LENGTH, minPasswordLength, maxPasswordLength } from '../users.constant';
+import { UserFieldLength, UserValidation } from '../bff.constant';
 
 export class UpdatePasswordDto {
   @ApiProperty({
@@ -8,7 +8,7 @@ export class UpdatePasswordDto {
     example: '123456',
     required: true
   })
-  @Length(minPasswordLength, maxPasswordLength, { message: AUTH_USER_PASSWORD_LENGTH })
+  @Length(UserFieldLength.MinPassword, UserFieldLength.MaxPassword, { message: UserValidation.AuthUserPasswordLength })
   @IsString()
   public password: string;
 
@@ -17,7 +17,7 @@ export class UpdatePasswordDto {
     example: '123456',
     required: true
   })
-  @Length(minPasswordLength, maxPasswordLength, { message: AUTH_USER_PASSWORD_LENGTH })
+  @Length(UserFieldLength.MinPassword, UserFieldLength.MaxPassword, { message: UserValidation.AuthUserPasswordLength })
   @IsString()
   public newPassword: string;
 }

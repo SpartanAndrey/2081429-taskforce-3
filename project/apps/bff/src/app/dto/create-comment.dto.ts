@@ -1,7 +1,7 @@
 import { Transform } from "class-transformer";
 import {ApiProperty} from "@nestjs/swagger";
 import { IsString, Length, IsNumber } from 'class-validator';
-import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, COMMENT_LENGTH } from "../comment.constant";
+import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, COMMENT_LENGTH } from "../bff.constant";
 
 export class CreateCommentDto {
   @ApiProperty({

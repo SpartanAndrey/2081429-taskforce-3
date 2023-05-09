@@ -52,5 +52,4 @@ export class UserRdo {
   })
   @Expose()
   public dateBirth: string;
-
 }

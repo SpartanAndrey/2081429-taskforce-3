@@ -1,7 +1,7 @@
 import { City, TaskStatus, SortType } from '@project/shared/app-types';
 import { IsIn, IsNumber, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { DEFAULT_TASK_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, DEFAULT_SORT_TYPE } from '../tasks.constant';
+import { DEFAULT_TASK_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, DEFAULT_SORT_TYPE } from '../bff.constant';
 
 export class TaskQuery {
   @Transform(({ value } ) => +value || DEFAULT_TASK_COUNT_LIMIT)

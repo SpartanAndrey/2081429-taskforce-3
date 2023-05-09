@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsIn, IsNumber, IsOptional } from 'class-validator';
-import { DEFAULT_COMMENT_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from '../comment.constant';
+import { DEFAULT_COMMENT_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from '../bff.constant';
 
 export class CommentQuery {
   

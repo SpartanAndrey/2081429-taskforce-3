@@ -11,10 +11,10 @@ Content-Type: application/json
 
 {
   "fullName": "Spartan Spartanych",
-  "email": "sparta@gmail.com",
+  "email": "sp@gmail.com",
   "city": "Moscow",
   "password": "123456",
-  "role": "Contractor",
+  "role": "Customer",
   "dateBirth": "2022-02-22"
 }
 
@@ -26,7 +26,7 @@ POST {{baseUrl}}/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "sparta@gmail.com",
+  "email": "sp@gmail.com",
   "password": "123456"
 }
 
@@ -70,23 +70,23 @@ Content-Type: application/json
 #Create task
 # @name task
 POST {{baseUrl}}/tasks/create HTTP/1.1
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "title": "Дверь мне запили. Срочно",
+  "title": "Дверь мне запили. Срочно5",
   "description": "Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.",
   "categoryId": 1,
   "price": 1000,
   "address": "переулок Дверной запил, 21",
   "city": "Moscow",
-  "tags": ["дверь", "запилить"],
-  "userId": "A123"
+  "tags": ["дверь", "запилить"]
 }
 
 ###
 
 # Get task by ID
-GET {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
+GET {{baseUrl}}/tasks/5/data HTTP/1.1
 
 # Update task status by ID
 PATCH {{baseUrl}}/tasks/{{taskId}}/status HTTP/1.1
@@ -122,6 +122,55 @@ Content-Type: application/json
 ###
 
 # Get tasks
-GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1 HTTP/1.1
+GET {{baseUrl}}/tasks/all HTTP/1.1
+
+###
+
+# Get new tasks
+GET {{baseUrl}}/tasks/new HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Delete task by ID
+DELETE {{baseUrl}}/tasks/5 HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Create comment
+POST {{baseUrl}}/comments/create HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "comment": "Изи пизи лемон сквизи",
+  "taskId": 5
+}
+
+###
+
+#Delete comment by ID
+DELETE {{baseUrl}}/comments/4 HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get comments
+GET {{baseUrl}}/comments/task/1 HTTP/1.1
+
+###
+
+#Create review
+POST {{baseUrl}}/reviews/create HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "review": "Нраица, очень нраица. Рататаратараатататататататттаататататт",
+  "taskId": 5,
+  "contractorId": "6455dc009a24b824b6976f84",
+  "rating": 4
+}
 
 ###

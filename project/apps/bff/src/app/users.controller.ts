@@ -9,6 +9,8 @@ import { UserRole } from '@project/shared/app-types';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UserRdo } from './rdo/user.rdo';
+import { LoggedUserRdo } from './rdo/logged-user.rdo';
 
 @ApiTags('users')
 @Controller('users')
@@ -18,18 +20,40 @@ export class UsersController {
     private readonly httpService: HttpService
   ) {}
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.CREATED,
+    description: 'The new user has been successfully created.'
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'The user has already existed.'
+  })
   @Post('register')
   public async create(@Body() createUserDto: CreateUserDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/register`, createUserDto);
     return data;
   }
 
+  @ApiResponse({
+    type: LoggedUserRdo,
+    status: HttpStatus.OK,
+    description: 'User has been successfully logged.'
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Password or Login is wrong.',
+  })
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/login`, loginUserDto);
     return data;
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get a new access/refresh tokens'
+  })
   @Post('refresh')
   public async refreshToken(@Req() req: Request) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/refresh`, null, {
@@ -73,6 +97,10 @@ export class UsersController {
     }
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User has been successfully updated.'
+  })
   @Patch(':id')
   public async update(@Req() req: Request, @Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Users}/${id}`, updateUserDto, {
@@ -83,6 +111,10 @@ export class UsersController {
     return data;
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password has been successfully updated.'
+  })
   @Patch(':id/password')
   public async updatePassword(@Req() req: Request, @Param('id') id: string, @Body() updatePasswordDto: UpdatePasswordDto) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Users}/${id}/password`, updatePasswordDto, {
