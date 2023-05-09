@@ -65,3 +65,20 @@ Content-Type: application/json
 }
 
 ###
+
+# Check user token
+POST {{baseUrl}}/auth/check HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get users List
+POST {{baseUrl}}/auth/users-list HTTP/1.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "ids": ["6455dc009a24b824b6976f84", "6458f530cbf848d544c9548c"]
+}
+
+###

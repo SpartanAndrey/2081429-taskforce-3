@@ -36,6 +36,19 @@ export class ReviewController {
   }
 
   @ApiResponse({
+    type: ReviewRdo,
+    status: HttpStatus.OK,
+    description: 'The review found.'
+  })
+  @Get('task/:taskId') 
+  public async getByTask(@Param('taskId') taskId: number) {
+    
+    const existReview = await this.reviewService.getByTaskId(taskId);
+
+    return fillObject(ReviewRdo, existReview);
+  }
+
+  @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'The review has been successfully deleted.'
   })

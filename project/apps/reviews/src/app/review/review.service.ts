@@ -22,6 +22,13 @@ export class ReviewService {
     return this.reviewRepository.findById(id);
   }
 
+  public async getByTaskId(taskId: number) {
+    const existReview = await this.reviewRepository.findByTaskId(taskId);
+
+
+    return existReview;
+  }
+
   async getByContractorId(contractorId: string) {
     return this.reviewRepository.findByContractorId(contractorId);
   }

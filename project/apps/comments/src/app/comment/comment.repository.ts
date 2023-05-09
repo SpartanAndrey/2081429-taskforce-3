@@ -20,7 +20,7 @@ export class CommentRepository implements CRUDRepository<CommentEntity, number, 
   }
 
 
-  public findById(id: number): Promise<Comment | null> {
+  public async findById(id: number): Promise<Comment | null> {
     return this.prisma.comment.findFirst({
       where: {
         id
@@ -28,7 +28,7 @@ export class CommentRepository implements CRUDRepository<CommentEntity, number, 
     });
   }
 
-  public find(taskId: number, {limit, sortDirection, page}: CommentQuery): Promise<Comment[]> {
+  public async find({limit, sortDirection, page}: CommentQuery, taskId?: number): Promise<Comment[]> {
     return this.prisma.comment.findMany({
       where: {
         taskId: taskId,
@@ -42,6 +42,15 @@ export class CommentRepository implements CRUDRepository<CommentEntity, number, 
       skip: page > 0 ? limit * (page - 1) : undefined,
     });
   }
+
+  public async findByIds(ids: number[]): Promise<Comment[]> {
+    return this.prisma.comment.findMany({
+      where: {
+        taskId: {in: ids},
+      },
+    });
+  }
+
 
   public async destroy(id: number): Promise<void> {
     await this.prisma.comment.delete({

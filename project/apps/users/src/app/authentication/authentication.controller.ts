@@ -14,7 +14,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyService } from '../notify/notify.service';
 import { LocalAuthGuard } from './guards/local-auth-guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
-import { RequestWithUser } from '@project/shared/app-types';
+import { RequestWithUser, RequestWithTokenPayload } from '@project/shared/app-types';
 import { UserRole } from '@project/shared/app-types';
 
 @ApiTags('authentication')
@@ -68,7 +68,6 @@ export class AuthenticationController {
     status: HttpStatus.OK,
     description: 'User found.'
   })
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
@@ -119,5 +118,24 @@ export class AuthenticationController {
     } else if (updatedUser.role === UserRole.Contractor) {
       return fillObject(ContractorUserRdo, updatedUser);
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
+    return payload;
+  }
+
+  @Post('/users-list')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The users list has been successfully added.'
+  })
+  async getUsers(@Body() ids: string[]) {
+    
+    const users = await this.authService.getUsersList(ids);
+
+    return fillObject(UserRdo, users);
   }
 }

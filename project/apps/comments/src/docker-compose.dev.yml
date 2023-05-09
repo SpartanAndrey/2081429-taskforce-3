@@ -30,7 +30,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "test"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
-      - 8083:80
+      - 8087:80
     networks:
       - taskforce.comments
 

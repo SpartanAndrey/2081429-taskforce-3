@@ -1,7 +1,7 @@
 import { ConflictException, ForbiddenException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import dayjs from 'dayjs';
-import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG, AUTH_USER_FORBIDDEN } from './authentication.constant';
+import { UserException } from './authentication.constant';
 import { TaskUserEntity } from '../task-user/task-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -36,7 +36,7 @@ export class AuthenticationService {
       .findByEmail(email);
     
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
+      throw new ConflictException(UserException.AuthUserExist);
     }
     
     const userEntity = await new TaskUserEntity(taskUser)
@@ -51,12 +51,12 @@ export class AuthenticationService {
     const existUser = await this.taskUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(UserException.AuthUserNotFound);
     }
 
     const taskUserEntity = new TaskUserEntity(existUser);
     if (!await taskUserEntity.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(UserException.AuthUserPasswordWrong);
     }
 
     return taskUserEntity.toObject();
@@ -86,7 +86,7 @@ export class AuthenticationService {
     const existUser =  await this.taskUserRepository.findById(id);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(UserException.AuthUserNotFound);
     }
 
     const userEntity = await new TaskUserEntity(existUser);
@@ -94,7 +94,7 @@ export class AuthenticationService {
       .comparePassword(password)
 
     if (!isPassword) {
-      throw new ForbiddenException(AUTH_USER_FORBIDDEN);
+      throw new ForbiddenException(UserException.AuthUserForbidden);
     }
 
     await new TaskUserEntity(existUser).setPassword(newPassword);
@@ -106,10 +106,15 @@ export class AuthenticationService {
     const existUser = await this.taskUserRepository.findById(id);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(UserException.AuthUserNotFound);
     }
 
     const userEntity = new TaskUserEntity({...existUser, ...dto});
     return await this.taskUserRepository.update(id, userEntity);
   }
+
+  public async getUsersList(ids: string[]) {
+    return this.taskUserRepository.find(ids);
+  }
+
 }

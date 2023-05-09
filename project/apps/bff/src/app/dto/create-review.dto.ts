@@ -1,7 +1,7 @@
 import {ApiProperty} from "@nestjs/swagger";
 import { Transform } from 'class-transformer';
 import { IsInt, IsString, Length, Max, Min } from 'class-validator';
-import { MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH, MIN_RATING, MAX_RATING, VALID_RATING, REVIEW_LENGTH } from "../review.constant";
+import { MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH, MIN_RATING, MAX_RATING, VALID_RATING, REVIEW_LENGTH } from "../bff.constant";
 
 export class CreateReviewDto {
   @ApiProperty({

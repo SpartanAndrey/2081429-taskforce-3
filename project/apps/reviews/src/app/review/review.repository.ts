@@ -27,6 +27,14 @@ export class ReviewRepository implements CRUDRepository<ReviewEntity, number, Re
     });
   }
 
+  public findByTaskId(taskId: number): Promise<Review | null> {
+    return this.prisma.review.findFirst({
+      where: {
+        taskId
+      }
+    });
+  }
+
   public findByContractorId(contractorId: string): Promise<Review[]> {
     return this.prisma.review.findMany({
       where: {

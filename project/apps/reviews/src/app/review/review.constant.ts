@@ -1,8 +1,8 @@
-export const minReviewLength = 50;
-export const maxReviewLength = 500;
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 500;
 
-export const minRating = 1;
-export const maxRating = 5;
+export const MIN_RATING = 1;
+export const MAX_RATING = 5;
 
-export const REVIEW_LENGTH = `Review length shall be between ${minReviewLength} and ${maxReviewLength} chars.`
-export const VALID_RATING = `Rating shall be between ${minRating} and ${maxRating} chars.`
+export const REVIEW_LENGTH = `Review length shall be between ${MIN_REVIEW_LENGTH} and ${MAX_REVIEW_LENGTH} chars.`
+export const VALID_RATING = `Rating shall be between ${MIN_RATING} and ${MAX_RATING} chars.`

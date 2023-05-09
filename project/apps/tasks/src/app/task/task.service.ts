@@ -7,7 +7,7 @@ import { TaskRepository } from './task.repository';
 import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { TaskEntity } from './task.entity';
 import { TaskQuery } from './query/task.query';
-import { TASK_STATUS_CONDITIONS_WRONG, TASK_FORBIDDEN, TASK_NOT_FOUND, TASK_CANT_TAKE, TASK_CONTRACTOR_APPOINTED } from './task.constant';
+import { TaskException } from './task.constant';
 
 @Injectable()
 export class TaskService {
@@ -34,8 +34,8 @@ export class TaskService {
     return this.taskRepository.find(query);
   }
 
-  async getNewTasks(userId: string, query: TaskQuery) {
-    return this.taskRepository.find({ ...query, userId: userId, status: TaskStatus.New });
+  async getNewTasks(query: TaskQuery) {
+    return this.taskRepository.find({ ...query, status: TaskStatus.New });
   }
 
   async getCustomerTasks(userId: string, query: TaskQuery) {
@@ -50,7 +50,7 @@ export class TaskService {
     return this.taskRepository.find({ ...query, contractorId: userId, sortType: SortType.Status });
   }
 
-  async getContratorTasksNumber(contractorId: string, query: TaskQuery) {
+  async getContractorTasksNumber(contractorId: string, query: TaskQuery) {
     return this.taskRepository.countContractorTasks({ ...query, contractorId: contractorId });
   }
 
@@ -59,11 +59,11 @@ export class TaskService {
     const task =  await this.taskRepository.findById(id);
 
     if (!task) {
-      throw new NotFoundException(TASK_NOT_FOUND);
+      throw new NotFoundException(TaskException.TaskNotFound);
     }
 
     if (dto.userId !== task.userId && dto.userId !== task.contractorId) {
-      throw new ForbiddenException(TASK_FORBIDDEN);
+      throw new ForbiddenException(TaskException.TaskForbidden);
     }
    
     if (task.status === TaskStatus.New && task.userId === dto.userId) {
@@ -76,7 +76,7 @@ export class TaskService {
     } else if (task.status === TaskStatus.InWork && task.contractorId === dto.userId) {
       return this.taskRepository.updateStatus(id, dto.status);
     } else {
-      throw new BadRequestException(TASK_STATUS_CONDITIONS_WRONG);
+      throw new BadRequestException(TaskException.TaskStatusConditionsWrong);
     }
   }
 
@@ -84,17 +84,17 @@ export class TaskService {
     const {role, userId} = dto;
     
     if (role !== UserRole.Contractor) {
-      throw new ForbiddenException(TASK_CANT_TAKE);
+      throw new ForbiddenException(TaskException.TaskCantTake);
     }
 
     const task = await this.taskRepository.findById(id);
 
     if (!task) {
-      throw new NotFoundException(TASK_NOT_FOUND);
+      throw new NotFoundException(TaskException.TaskNotFound);
     }
 
     if (task.contractorId !== null) {
-      throw new ForbiddenException(TASK_CONTRACTOR_APPOINTED);
+      throw new ForbiddenException(TaskException.TaskContractorExist);
     }
 
     return this.taskRepository.addContractor(id, userId);
@@ -104,13 +104,17 @@ export class TaskService {
     const {role, userId} = dto;
 
     if (role !== UserRole.Contractor) {
-      throw new ForbiddenException(TASK_CANT_TAKE);
+      throw new ForbiddenException(TaskException.TaskCantTake);
     }
 
     const task = await this.taskRepository.findById(id);
 
     if (!task) {
-      throw new NotFoundException(TASK_NOT_FOUND);
+      throw new NotFoundException(TaskException.TaskNotFound);
+    }
+
+    if (!task.responses.includes(userId)) {
+      throw new ForbiddenException(TaskException.TaskForbidden);
     }
 
     return await this.taskRepository.addResponse(id, userId);

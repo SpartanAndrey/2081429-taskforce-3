@@ -38,4 +38,11 @@ export class TaskUserRepository implements CRUDRepository<TaskUserEntity, string
       .findByIdAndUpdate(_id, item.toObject(), {new: true})
       .exec();
   }
+
+  public async find(ids: string[]): Promise<User[] | null> {
+    return this.taskUserModel
+      .find({ _id: { $in: [...ids]}})
+      .exec();
+  }
+
 }

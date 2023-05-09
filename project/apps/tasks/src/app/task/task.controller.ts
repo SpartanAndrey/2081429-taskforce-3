@@ -70,24 +70,44 @@ export class TaskController {
     return fillObject(TaskRdo, updatedTask);
   }
 
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.OK,
+    description: 'The tasks are provided.'
+  })
   @Get('/')
   async index(@Query() query: TaskQuery) {
     const tasks = await this.taskService.getTasks(query);
     return fillObject(TaskRdo, tasks);
   }
 
-  @Get('/:userId/new')
-  async getCustomerNewTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
-    const tasks = await this.taskService.getNewTasks(userId, query);
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.OK,
+    description: 'The new tasks are provided.'
+  })
+  @Get('/new/data')
+  async getCustomerNewTasks(@Query() query: TaskQuery) {
+    const tasks = await this.taskService.getNewTasks(query);
     return fillObject(TaskRdo, tasks);
   }
 
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.OK,
+    description: 'Your tasks are provided.'
+  })
   @Get('/customer/:userId/my')
   async getCustomerTasks(@Param('userId') userId: string, @Query() query: TaskQuery) {
     const tasks = await this.taskService.getCustomerTasks(userId, query);
     return fillObject(TaskRdo, tasks);
   }
 
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.OK,
+    description: 'Your tasks are provided.'
+  })
   @Get('/customer/:userId/count')
   async getCustomerTasksCount(@Param('userId') userId: string, @Query() query: TaskQuery) {
     const tasks = await this.taskService.getCustomerTasksNumber(userId, query);
