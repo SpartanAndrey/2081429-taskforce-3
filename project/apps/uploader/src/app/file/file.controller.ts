@@ -25,7 +25,7 @@ export class FileController {
     new ParseFilePipe({
       validators: [
         new MaxFileSizeValidator({ maxSize: 1000 }),
-        new FileTypeValidator({ fileType: 'image/jpeg' || 'image/png'}),
+        new FileTypeValidator({ fileType: 'image/png' || 'image/jpeg'}),
       ],
     })) file: Express.Multer.File) {
     const newFile = await this.fileService.saveFile(file);

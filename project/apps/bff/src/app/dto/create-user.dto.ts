@@ -1,7 +1,7 @@
 import { City, UserRole } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsISO8601, IsString, Length } from 'class-validator';
-import { UserFieldLength, UserValidation } from '../bff.constant';
+import { AUTH_USER_DATEBIRTH_NOT_VALID, AUTH_USER_EMAIL_NOT_VALID, AUTH_USER_NAME_LENGTH, AUTH_USER_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH, MAX_USER_LENGTH, MIN_PASSWORD_LENGTH, MIN_USER_LENGTH } from '../bff.constant';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -9,7 +9,7 @@ export class CreateUserDto {
     example: 'Ivan Ivanov',
     required: true
   })
-  @Length(UserFieldLength.MinUser, UserFieldLength.MaxUser, { message: UserValidation.AuthUserNameLength })
+  @Length(MIN_USER_LENGTH, MAX_USER_LENGTH, { message: AUTH_USER_NAME_LENGTH })
   @IsString()
   public fullName: string;
 
@@ -18,7 +18,7 @@ export class CreateUserDto {
     example: 'user@gmail.com',
     required: true
   })
-  @IsEmail({}, { message: UserValidation.AuthUserEmailNotValid })
+  @IsEmail({}, { message: AUTH_USER_EMAIL_NOT_VALID })
   public email: string;
 
   @ApiProperty({
@@ -32,7 +32,7 @@ export class CreateUserDto {
     example: '123456',
     required: true
   })
-  @Length(UserFieldLength.MinPassword, UserFieldLength.MaxPassword, { message: UserValidation.AuthUserPasswordLength })
+  @Length(MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH, { message: AUTH_USER_PASSWORD_LENGTH })
   @IsString()
   public password: string;
 
@@ -54,6 +54,6 @@ export class CreateUserDto {
     example: '2022-02-22',
     required: true
   })
-  @IsISO8601({}, { message: UserValidation.AuthUserDateBirthNotValid })
+  @IsISO8601({}, { message: AUTH_USER_DATEBIRTH_NOT_VALID })
   public dateBirth: Date;
 }

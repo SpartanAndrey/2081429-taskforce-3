@@ -91,7 +91,7 @@ export class UsersController {
       const reviewsNumber = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Reviews}/${id}/data`)).data.length;
       const reviewsSum = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Reviews}/${id}/sum`)).data;
 
-      const ratingTotal = reviewsSum / (reviewsNumber + failedTasksNumber);
+      const ratingTotal = Math.round(reviewsSum / (reviewsNumber + failedTasksNumber));
 
       return {...data, completedTasksCount: completedTasksNumber, failedTasksCount: failedTasksNumber, rating: ratingTotal};
     }

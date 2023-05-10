@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Req, UseFilters, HttpStatus, Param, Patch, Query, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, UseFilters, HttpStatus, Param, Patch, Query, Delete, UseGuards, UseInterceptors, ForbiddenException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationServiceURL } from './app.config';
 import { Request } from 'express';
@@ -6,7 +6,8 @@ import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
-import { UpdateTaskResponseDto } from './dto/update-task-response.dto';
+import { AddTaskContractorDto } from './dto/add-task-contractor.dto';
+import { AddTaskResponseDto } from './dto/add-task-response.dto';
 import { TaskQuery } from './query/task.query';
 import { TaskRdo } from './rdo/task.rdo';
 import { CheckAuthGuard } from './guards/check-auth.guard';
@@ -15,6 +16,8 @@ import { CustomeridInterceptor } from './interceptors/customerid.interceptor';
 import { CheckAuthorInterceptor } from './interceptors/check-author.interceptor';
 import { ContractoridInterceptor } from './interceptors/contractorid.interceptor';
 import { fillTaskData } from './util/fill-task-data';
+import { CATEGORY_ALREADY_FOUND, TASK_NOT_OWNER } from './bff.constant';
+import CreateTaskCategoryDto from './dto/create-task-category.dto';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -34,6 +37,29 @@ export class TasksController {
   @Post('create')
   public async create(@Body() createTaskDto: CreateTaskDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Tasks}`, createTaskDto);
+    return data;
+  }
+
+  @ApiResponse({
+    type: TaskRdo,
+    status: HttpStatus.CREATED,
+    description: 'The new category has been successfully created.'
+  })
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(CustomeridInterceptor)
+  @Post('category/create')
+  public async createCategory(@Body() createTaskCategoryDto: CreateTaskCategoryDto) {
+
+    const proposedTitle = createTaskCategoryDto.title;
+
+    const categories = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Categories}`)).data;
+
+    if (categories.some(category => category.title === proposedTitle)) {
+      throw new ForbiddenException(CATEGORY_ALREADY_FOUND)
+    }
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Categories}`, createTaskCategoryDto);
+
     return data;
   }
 
@@ -64,7 +90,8 @@ export class TasksController {
   @UseInterceptors(UseridInterceptor)
   @Patch(':id/status')
   public async updateStatus(@Param('id') id: number, @Body() updateTaskStatusDto: UpdateTaskStatusDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Tasks}/${id}/status`, updateTaskStatusDto);
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Tasks}/${id}/status`, updateTaskStatusDto);
+    console.log(data)
     return data;
   }
   
@@ -76,8 +103,8 @@ export class TasksController {
   @Patch(':id/contractor')
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(CustomeridInterceptor, CheckAuthorInterceptor)
-  public async addContractorToTask(@Param('id') id: number, @Body() updateTaskResponseDto: UpdateTaskResponseDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Tasks}/${id}/contractor`, updateTaskResponseDto);
+  public async addContractorToTask(@Param('id') id: number, @Body() updateTaskResponseDto: AddTaskContractorDto) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Tasks}/${id}/contractor`, updateTaskResponseDto);
     return data;
   }
 
@@ -89,8 +116,8 @@ export class TasksController {
   @Patch(':id/response')
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(ContractoridInterceptor)
-  public async addResponseToTask(@Param('id') id: number, @Body() updateTaskResponseDto: UpdateTaskResponseDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Tasks}/${id}/response`, updateTaskResponseDto);
+  public async addResponseToTask(@Param('id') id: number, @Body() updateTaskResponseDto: AddTaskResponseDto) {
+    const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Tasks}/${id}/response`, updateTaskResponseDto);
     return data;
   }
 
@@ -163,7 +190,16 @@ export class TasksController {
   @Delete('/:id')
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(CustomeridInterceptor, CheckAuthorInterceptor)
-  async destroy(@Param('id') id: number) {
+  async destroy(@Req() req: Request, @Param('id') id: number) {
+
+    const user = req.body.userId;
+
+    const task = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/${id}`)).data
+
+    if (task.userId !== user) {
+      throw new ForbiddenException(TASK_NOT_OWNER)
+    }
+
     await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Tasks}/${id}`);
     await this.httpService.axiosRef.delete(`${ApplicationServiceURL.Comments}/task/${id}`);
   }

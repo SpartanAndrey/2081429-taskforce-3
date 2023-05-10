@@ -2,14 +2,14 @@ import { City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString, Length, MaxLength, IsArray, ArrayMaxSize, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { MAX_USER_SPECIALIZATION_NUMBER, UserFieldLength, UserValidation } from '../authentication.constant';
+import { AUTH_USER_DATEBIRTH_NOT_VALID, AUTH_USER_INFO_LENGTH, AUTH_USER_MAX_SPECIALIZATION_NUMBER, AUTH_USER_NAME_LENGTH, MAX_USER_INFO, MAX_USER_LENGTH, MAX_USER_SPECIALIZATION_NUMBER, MIN_USER_LENGTH } from '../authentication.constant';
 
 export class UpdateUserDto {
   @ApiProperty({
     description: 'Фамилия и имя пользователя. Минимальная длина поля: 3 символа, максимальная 50 символов.',
     example: 'Ivan Ivanov',
   })
-  @Length(UserFieldLength.MinUser, UserFieldLength.MaxUser, { message: UserValidation.AuthUserNameLength })
+  @Length(MIN_USER_LENGTH, MAX_USER_LENGTH, { message: AUTH_USER_NAME_LENGTH })
   @IsString()
   @IsOptional()
   public fullName?: string;
@@ -18,7 +18,7 @@ export class UpdateUserDto {
     description: 'Дата рождения пользователя в формате: YYYY-MM-DD. Ограничения: валидная дата, пользователь достиг совершеннолетия (18 лет).',
     example: '2022-02-22',
   })
-  @IsISO8601({}, { message: UserValidation.AuthUserDateBirthNotValid })
+  @IsISO8601({}, { message: AUTH_USER_DATEBIRTH_NOT_VALID})
   @IsOptional()
   public dateBirth?: Date;
 
@@ -26,7 +26,7 @@ export class UpdateUserDto {
     description: 'Информация о себе. Максимальная длина: 300 символов',
     example: 'Ну я такой ничё работник.',
   })
-  @MaxLength(UserFieldLength.MaxUserInfo, { message: UserValidation.AuthUserInfoLength })
+  @MaxLength(MAX_USER_INFO, { message: AUTH_USER_INFO_LENGTH })
   @IsString()
   @IsOptional()
   public personalInfo?: string;
@@ -36,7 +36,7 @@ export class UpdateUserDto {
     example: 'Москва'
   })
   @IsArray()
-  @ArrayMaxSize(MAX_USER_SPECIALIZATION_NUMBER, { message: UserValidation.AuthUserMaxSpecializationNumber})
+  @ArrayMaxSize(MAX_USER_SPECIALIZATION_NUMBER, { message: AUTH_USER_MAX_SPECIALIZATION_NUMBER})
   @Transform(({ value }) => new Set(value.map(item => item.toLowerCase())))
   @IsOptional()
   public specializations?: string[];

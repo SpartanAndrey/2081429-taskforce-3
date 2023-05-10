@@ -116,13 +116,13 @@ export class TaskRepository implements CRUDRepository<TaskEntity, number, Task> 
     });
   }
 
-  public async addContractor(taskId: number, userId: string): Promise<Task | null> {
+  public async addContractor(taskId: number, contractorId: string): Promise<Task | null> {
     return await this.prisma.task.update({
       where: {
         taskId,
       },
       data: {
-        contractorId: userId,
+        contractorId: contractorId,
         status: TaskStatus.InWork,
       },
       include: {
