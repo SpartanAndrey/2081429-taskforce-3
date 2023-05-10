@@ -1,16 +1,14 @@
-import { Body, Controller, Post, Get, UseFilters, Param, Query, Delete, UseGuards, UseInterceptors, ForbiddenException, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, UseGuards, UseInterceptors, ForbiddenException, BadRequestException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateCommentDto } from './dto/create-comment.dto';
 import { CheckAuthGuard } from './guards/check-auth.guard';
-import { UseridInterceptor } from './interceptors/userid.interceptor';
-import { CheckAuthorInterceptor } from './interceptors/check-author.interceptor';
-import { CommentQuery } from './query/comment.query';
 import { CustomeridInterceptor } from './interceptors/customerid.interceptor';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { TaskStatus } from '@project/shared/app-types';
+import { TASK_HAS_REVIEW, TASK_NOT_COMPLETED, TASK_NOT_OWNER } from './bff.constant';
+import { ReviewRdo } from './rdo/review.rdo';
 
 @ApiTags('reviews')
 @Controller('reviews')
@@ -20,6 +18,11 @@ export class ReviewsController {
     private readonly httpService: HttpService
   ) {}
 
+  @ApiResponse({
+    type: ReviewRdo,
+    status: HttpStatus.CREATED,
+    description: 'The new review has been successfully created.'
+  })
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(CustomeridInterceptor)
   @Post('create')
@@ -33,15 +36,15 @@ export class ReviewsController {
 
 
     if (review.userId !== task.userId) {
-      throw new ForbiddenException('You are not author.')
+      throw new ForbiddenException(TASK_NOT_OWNER)
     }
 
     if (task.status !== TaskStatus.Completed) {
-      throw new BadRequestException('Tha task has not completed yet.')
+      throw new BadRequestException(TASK_NOT_COMPLETED)
     }
     
     if (existReview) {
-      throw new ForbiddenException('You have already left a review.')
+      throw new ForbiddenException(TASK_HAS_REVIEW)
     }
     
     return review;

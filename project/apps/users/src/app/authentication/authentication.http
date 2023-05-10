@@ -13,7 +13,7 @@ Content-Type: application/json
   "email": "sparta@gmail.com",
   "city": "Moscow",
   "password": "123456",
-  "role": "Contractor",
+  "role": "Customer",
   "dateBirth": "2022-02-22"
 }
 

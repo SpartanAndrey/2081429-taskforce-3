@@ -27,11 +27,11 @@ GET {{baseUrl}}/tasks/{{taskId}} HTTP/1.1
 ###
 
 # Update task status by ID
-PATCH {{baseUrl}}/tasks/{{taskId}}/status HTTP/1.1
+PATCH {{baseUrl}}/tasks/5/status HTTP/1.1
 Content-Type: application/json
 
 {
-  "userId": "A123",
+  "userId": "6458f530cbf848d544c9548c",
   "status": "Canceled"
 }
 
@@ -42,7 +42,6 @@ PATCH {{baseUrl}}/tasks/{{taskId}}/response HTTP/1.1
 Content-Type: application/json
 
 {
-  "role": "Contractor",
   "userId": "B111"
 }
 
@@ -53,7 +52,7 @@ PATCH {{baseUrl}}/tasks/{{taskId}}/contractor HTTP/1.1
 Content-Type: application/json
 
 {
-  "role": "Contractor",
+  "contractorId": "A123",
   "userId": "B111"
 }
 
@@ -75,7 +74,7 @@ GET {{baseUrl}}/tasks/contractor/{{userId}}?status=Completed HTTP/1.1
 ###
 
 # Get customer tasks
-GET {{baseUrl}}/tasks?sortDirection=desc&limit=2&page=1&userId={{userId}} HTTP/1.1
+GET {{baseUrl}}/task/customer/2/my?sortDirection=desc&limit=2&page=1 HTTP/1.1
 
 ###
 

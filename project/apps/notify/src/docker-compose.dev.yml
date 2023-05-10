@@ -31,7 +31,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: test
       MONGO_INITDB_DATABASE: taskforce-notify
     ports:
-      - 27020:27017
+      - 27022:27017
     volumes:
       - taskforce.notify.mongodb:/data/db
     healthcheck:

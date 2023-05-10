@@ -2,7 +2,7 @@ import { City } from '@project/shared/app-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString, Length, IsPositive, IsOptional, ArrayMaxSize } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { MAX_TASK_TAG_NUMBER, FieldLength, TaskValidation } from '../task.constant';
+import { MAX_ADDRESS_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_TAG_LENGTH, MAX_TASK_TAG_NUMBER, MAX_TITLE_LENGTH, MIN_ADDRESS_LENGTH, MIN_DESCRIPTION_LENGTH, MIN_TAG_LENGTH, MIN_TITLE_LENGTH, TASK_ADDRESS_LENGTH, TASK_DESCRIPTION_LENGTH, TASK_DUEDATE_NOT_VALID, TASK_TAG_LENGTH, TASK_TAG_NUMBER, TASK_TITLE_LENGTH } from '../task.constant';
 
 export class CreateTaskDto {
   @ApiProperty({
@@ -10,7 +10,7 @@ export class CreateTaskDto {
     example: 'Дверь мне запили. Срочно',
     required: true
   })
-  @Length(FieldLength.MinTitle, FieldLength.MaxTitle, { message: TaskValidation.TaskTitleLength })
+  @Length(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, { message: TASK_TITLE_LENGTH })
   @IsString()
   public title: string;
 
@@ -19,7 +19,7 @@ export class CreateTaskDto {
     example: 'Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.Запили дверь.',
     required: true
   })
-  @Length(FieldLength.MinDescription, FieldLength.MaxDescription, { message: TaskValidation.TaskDescriptionLength })
+  @Length(MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH, { message: TASK_DESCRIPTION_LENGTH })
   @IsString()
   public description: string;
 
@@ -42,7 +42,7 @@ export class CreateTaskDto {
     description: 'Валидная дата для выполнения задания. Выбранная дата исполнения не может быть меньше текущей даты.',
     example: '2023-08-29'
   })
-  @IsISO8601({}, { message: TaskValidation.TaskDuedateNotValid })
+  @IsISO8601({}, { message: TASK_DUEDATE_NOT_VALID })
   @IsOptional()
   public dueDate?: Date;
 
@@ -58,7 +58,7 @@ export class CreateTaskDto {
     example: 'переулок Дверной запил, 21'
   })
   @IsOptional()
-  @Length(FieldLength.MinAddress, FieldLength.MaxAddress, { message: TaskValidation.TaskAddressLength })
+  @Length(MIN_ADDRESS_LENGTH, MAX_ADDRESS_LENGTH, { message: TASK_ADDRESS_LENGTH})
   @IsString()
   public address?: string;
 
@@ -67,8 +67,8 @@ export class CreateTaskDto {
     example: ['запилить', 'пенёк']
   })
   @IsOptional()
-  @ArrayMaxSize(MAX_TASK_TAG_NUMBER, {message: TaskValidation.TaskTagsNumber})
-  @Length(FieldLength.MinTag, FieldLength.MaxTag, {each: true, message: TaskValidation.TaskTagLength})
+  @ArrayMaxSize(MAX_TASK_TAG_NUMBER, {message: TASK_TAG_NUMBER})
+  @Length(MIN_TAG_LENGTH, MAX_TAG_LENGTH, {each: true, message: TASK_TAG_LENGTH})
   tags?: string[]; 
 
   @ApiProperty({

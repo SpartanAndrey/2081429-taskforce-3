@@ -6,7 +6,8 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TaskQuery } from './query/task.query';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
-import { UpdateTaskResponseDto } from './dto/update-task-response.dto';
+import { AddTaskResponseDto } from './dto/add-task-response.dto';
+import { AddTaskContractorDto } from './dto/add-task-contractor.dto';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -54,7 +55,7 @@ export class TaskController {
     description: 'The contractor has been successfully added.'
   })
   @Patch('/:id/contractor')
-  async addContractorToTask(@Param('id') id: number, @Body() dto: UpdateTaskResponseDto) {
+  async addContractorToTask(@Param('id') id: number, @Body() dto: AddTaskContractorDto) {
     const updatedTask = await this.taskService.addContractor(id, dto);
     return fillObject(TaskRdo, updatedTask);
   }
@@ -65,7 +66,7 @@ export class TaskController {
     description: 'The contractor has been successfully added.'
   })
   @Patch('/:id/response')
-  async addResponseToTask(@Param('id') id: number, @Body() dto: UpdateTaskResponseDto) {
+  async addResponseToTask(@Param('id') id: number, @Body() dto: AddTaskResponseDto) {
     const updatedTask = await this.taskService.addResponse(id, dto);
     return fillObject(TaskRdo, updatedTask);
   }

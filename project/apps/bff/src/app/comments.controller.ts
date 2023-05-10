@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, UseFilters, Param, Query, Delete, UseGuards, UseInterceptors, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseFilters, Param, Query, Delete, UseGuards, UseInterceptors, HttpStatus, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
@@ -9,6 +9,7 @@ import { UseridInterceptor } from './interceptors/userid.interceptor';
 import { CheckAuthorInterceptor } from './interceptors/check-author.interceptor';
 import { CommentQuery } from './query/comment.query';
 import { CommentRdo } from './rdo/comment.rdo';
+import { TASK_NOT_FOUND } from './bff.constant';
 
 @ApiTags('comments')
 @Controller('comments')
@@ -27,9 +28,18 @@ export class CommentsController {
   @UseInterceptors(UseridInterceptor)
   @Post('create')
   public async create(@Body() createCommentDto: CreateCommentDto) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Comments}/create`, createCommentDto);
-    
-    return data;
+
+    const dto = createCommentDto;
+
+    const task = (await this.httpService.axiosRef.get(`${ApplicationServiceURL.Tasks}/${dto.taskId}`));
+
+    if (!task) {
+       throw new NotFoundException(TASK_NOT_FOUND)
+    }
+
+    const comment= (await this.httpService.axiosRef.post(`${ApplicationServiceURL.Comments}/create`, createCommentDto)).data;
+
+    return comment;
   }
 
   @ApiResponse({

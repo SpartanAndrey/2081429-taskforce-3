@@ -1,7 +1,6 @@
 import { ConflictException, ForbiddenException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import dayjs from 'dayjs';
-import { UserException } from './authentication.constant';
 import { TaskUserEntity } from '../task-user/task-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -14,6 +13,7 @@ import { jwtConfig } from '@project/config/config-users';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { createJWTPayload } from '@project/util/util-core';
 import * as crypto from 'node:crypto';
+import { AUTH_USER_EXIST, AUTH_USER_FORBIDDEN, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
 
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AuthenticationService {
       .findByEmail(email);
     
     if (existUser) {
-      throw new ConflictException(UserException.AuthUserExist);
+      throw new ConflictException(AUTH_USER_EXIST);
     }
     
     const userEntity = await new TaskUserEntity(taskUser)
@@ -51,12 +51,12 @@ export class AuthenticationService {
     const existUser = await this.taskUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(UserException.AuthUserNotFound);
+      throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
     const taskUserEntity = new TaskUserEntity(existUser);
     if (!await taskUserEntity.comparePassword(password)) {
-      throw new UnauthorizedException(UserException.AuthUserPasswordWrong);
+      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
 
     return taskUserEntity.toObject();
@@ -86,7 +86,7 @@ export class AuthenticationService {
     const existUser =  await this.taskUserRepository.findById(id);
 
     if (!existUser) {
-      throw new NotFoundException(UserException.AuthUserNotFound);
+      throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
     const userEntity = await new TaskUserEntity(existUser);
@@ -94,7 +94,7 @@ export class AuthenticationService {
       .comparePassword(password)
 
     if (!isPassword) {
-      throw new ForbiddenException(UserException.AuthUserForbidden);
+      throw new ForbiddenException(AUTH_USER_FORBIDDEN);
     }
 
     await new TaskUserEntity(existUser).setPassword(newPassword);
@@ -106,7 +106,7 @@ export class AuthenticationService {
     const existUser = await this.taskUserRepository.findById(id);
 
     if (!existUser) {
-      throw new NotFoundException(UserException.AuthUserNotFound);
+      throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
     const userEntity = new TaskUserEntity({...existUser, ...dto});
