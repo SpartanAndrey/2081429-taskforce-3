@@ -4,6 +4,7 @@ import { PrismaClient } from '.prisma/tasks-client';
 const prisma = new PrismaClient();
 
 async function fillDb() {
+  try {
     await prisma.task.upsert({
       where: { taskId: 1 },
       update: {},
@@ -29,15 +30,14 @@ async function fillDb() {
         },
     });
     console.info('🤘️ Database was filled')
-  }
 
-fillDb()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (err) => {
+  } catch(err) {
     console.error(err);
-    await prisma.$disconnect()
+
+    await prisma.$disconnect();
 
     process.exit(1);
-  })
+  }
+}
+
+fillDb();

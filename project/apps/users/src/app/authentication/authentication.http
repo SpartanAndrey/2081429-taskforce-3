@@ -78,7 +78,7 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "ids": ["6455dc009a24b824b6976f84", "6458f530cbf848d544c9548c"]
+  "ids": ["645bb91d9724d260dd25b7dd", "645bb9359724d260dd25b7e1"]
 }
 
 ###

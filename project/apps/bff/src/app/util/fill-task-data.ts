@@ -8,9 +8,9 @@ export async function fillTaskData(tasks: TaskRdo[], httpService: HttpService) {
 
     const taskIds = tasks.map((task) => task.id);
     
-    const users = (await httpService.axiosRef.post(`${ApplicationServiceURL.Users}/users-list`, userIds)).data
+    const users = (await httpService.axiosRef.post(`${ApplicationServiceURL.Users}/users-list`, { ids: userIds })).data
     
-    const comments = (await httpService.axiosRef.post(`${ApplicationServiceURL.Comments}/comments-list`, taskIds)).data
+    const comments = (await httpService.axiosRef.post(`${ApplicationServiceURL.Comments}/comments-list`, { ids: taskIds })).data
     
     const filledTasks = tasks.map((task) => {
       const user = users.find(({id}) => id === task.userId);

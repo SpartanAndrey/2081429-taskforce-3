@@ -4,6 +4,7 @@ import { PrismaClient } from '.prisma/reviews-client';
 const prisma = new PrismaClient();
 
 async function fillDb() {
+  try {
     await prisma.review.upsert({
       where: { id: 1 },
       update: {},
@@ -17,15 +18,16 @@ async function fillDb() {
         },
     });
     console.info('🤘️ Database was filled')
-  }
 
-fillDb()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (err) => {
+    await prisma.$disconnect();
+
+  } catch(err) {
     console.error(err);
-    await prisma.$disconnect()
+
+    await prisma.$disconnect();
 
     process.exit(1);
-  })
+  }
+}
+
+fillDb();

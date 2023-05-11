@@ -57,3 +57,5 @@ export const TASK_NOT_COMPLETED = 'The task has not completed yet.';
 export const TASK_HAS_REVIEW = 'You have already left a review.';
 export const TASK_NOT_FOUND = 'Task is not found.';
 export const CATEGORY_ALREADY_FOUND = 'The category has already exists.';
+export const USER_NOT_CUSTOMER = 'You are not Customer.';
+export const USER_NOT_CONTRACTOR = 'You are not Contractor.';
