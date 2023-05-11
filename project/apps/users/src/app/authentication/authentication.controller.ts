@@ -132,9 +132,9 @@ export class AuthenticationController {
     status: HttpStatus.OK,
     description: 'The users list has been successfully added.'
   })
-  async getUsers(@Body() ids: string[]) {
+  async getUsers(@Body() data: {ids: string[]}) {
     
-    const users = await this.authService.getUsersList(ids);
+    const users = await this.authService.getUsersList(data.ids);
 
     return fillObject(UserRdo, users);
   }

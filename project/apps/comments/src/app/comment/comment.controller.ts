@@ -53,8 +53,8 @@ export class CommentController {
     description: 'The comments for choosen tasks are provided.'
   })
   @Post('/comments-list')
-  public async getList(@Body() ids: number[]) {
-    const comments = await this.commentService.getCommentsByIds(ids);
+  public async getList(@Body() data: {ids: number[]}) {
+    const comments = await this.commentService.getCommentsByIds(data.ids);
     return fillObject(CommentRdo, comments);
   }
 

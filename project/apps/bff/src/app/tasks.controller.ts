@@ -91,7 +91,6 @@ export class TasksController {
   @Patch(':id/status')
   public async updateStatus(@Param('id') id: number, @Body() updateTaskStatusDto: UpdateTaskStatusDto) {
     const { data } = await this.httpService.axiosRef.patch(`${ApplicationServiceURL.Tasks}/${id}/status`, updateTaskStatusDto);
-    console.log(data)
     return data;
   }
   
